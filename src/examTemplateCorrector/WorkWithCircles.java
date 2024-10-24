@@ -30,8 +30,12 @@ public class WorkWithCircles {
             boundingRect = Imgproc.boundingRect(contours.get(0));
         }
 
+        int minDist = rectangle.width() / 10;
+        int minRadius = rectangle.width() / 14;
+        int maxRadius = rectangle.width() / 8;
+
         Mat circles = new Mat();
-        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, 20, 100, 30, 15, 30);
+        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 30, minRadius, maxRadius);
 
         List<double[]> circlesList = new ArrayList<>();
 
@@ -87,9 +91,9 @@ public class WorkWithCircles {
             boundingRect = Imgproc.boundingRect(contours.get(0));
         }
 
-        int minRadius = rectangle.width() / 20;
-        int maxRadius = rectangle.width() / 10;
-        int minDist = rectangle.width() / 14;
+        int minDist = rectangle.width() / 16;
+        int minRadius = rectangle.width() / 24;
+        int maxRadius = rectangle.width() / 18;
 
         Mat circles = new Mat();
         Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 20, minRadius, maxRadius);
@@ -308,15 +312,17 @@ public class WorkWithCircles {
             Point center = new Point(circle[0] + boundingRect.x, circle[1] + boundingRect.y);
             int radius = (int) circle[2];
 
+            
+
             //Extraer la región del círculo
             Rect regionOfCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
             Mat circleSeparate = new Mat(grayRectangle, regionOfCircle);
-
+            
             //Contar los píxeles en negro
-            int darkPixels = countBlackPixels(circleSeparate, 70);
+            int darkPixels = countBlackPixels(circleSeparate, 85);
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
 
-            if (darkPixels > totalPixels * 0.5) {
+            if (darkPixels > totalPixels * 0.4) {
                 markedCircles[i] = true;
             } else {
                 markedCircles[i] = false;

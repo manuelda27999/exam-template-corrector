@@ -12,6 +12,8 @@ import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
 
 public class WorkWithRectangles {
@@ -67,8 +69,18 @@ public class WorkWithRectangles {
             RotatedRect rotatedRect = Imgproc.minAreaRect(contour2f);
             Rect rect = rotatedRect.boundingRect();
 
+            Boolean exist = false;
             if (rect.height > rect.width) {
-                rectangles.add(rect);
+                for (Rect rectOfResult : rectangles) {
+                    if (rectOfResult.x == rect.x || rectOfResult.x == (rect.x + 1) || rectOfResult.x == (rect.x - 1)) {
+                        exist = true;
+                    }
+                }
+                if (exist) {
+                    exist = false;
+                } else {
+                    rectangles.add(rect);
+                }
             }
         }
 
@@ -93,11 +105,19 @@ public class WorkWithRectangles {
         Imgproc.cvtColor(rectangle, grayRectangle, Imgproc.COLOR_BGR2GRAY);
 
         Mat edgesRectangle = new Mat();
-        Imgproc.Canny(grayRectangle, edgesRectangle, 200, 100);
+        Imgproc.Canny(grayRectangle, edgesRectangle, 100, 30);
+
+        // Aplica dilatación para cerrar espacios en las líneas
+        Mat dilatedEdges = new Mat();
+        Imgproc.dilate(edgesRectangle, dilatedEdges, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
+
+        // Aplica erosión para suavizar los bordes dilatados
+        Mat erodedEdges = new Mat();
+        Imgproc.erode(dilatedEdges, erodedEdges, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
 
         List<MatOfPoint> contoursRectangle = new ArrayList<>();
         Mat hierarchy = new Mat();
-        Imgproc.findContours(edgesRectangle, contoursRectangle, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(erodedEdges, contoursRectangle, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         for (MatOfPoint contour : contoursRectangle) {
             MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
@@ -106,9 +126,9 @@ public class WorkWithRectangles {
 
             //Filtramos los valores que cumplen con las condiciones adecuadas y añadimos solo una vez los valores una vez, obviando los repetidos
             Boolean exist = false;
-            if (rect.height < rect.width) {
+            if (rect.height < rect.width && rect.width > (rectangle.width() * 0.7) && rect.height < (rectangle.height() * 0.15)) {
                 for (Rect rectOfResult : resultRectanglesSet) {
-                    if (rectOfResult.y == rect.y || rectOfResult.y == (rect.y + 1) || rectOfResult.y == (rect.y - 1)) {
+                    if (rectOfResult.y == rect.y || Math.abs(rectOfResult.y - rect.y) <= 3) {
                         exist = true;
                     }
                 }
@@ -123,10 +143,10 @@ public class WorkWithRectangles {
         //Seleccionamos solo los 10 más grandes
         List<Rect> resultRectanglesList = new ArrayList<>(resultRectanglesSet);
         resultRectanglesList = getBiggestRectangles(resultRectanglesList, 10);
-
+        
         //Pinto los rectángulos en la imagen proporcionada
         for (Rect rect : resultRectanglesList) {
-            Imgproc.rectangle(rectangle, rect, new Scalar(0, 255, 0), 2);
+            Imgproc.rectangle(rectangle, rect, new Scalar(0, 0, 255), 2);
         }
 
         //Ordenamos los rectángulos en función del eje de la Y   

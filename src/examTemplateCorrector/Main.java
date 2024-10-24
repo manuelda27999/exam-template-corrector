@@ -12,6 +12,7 @@ import static examTemplateCorrector.WorkWithRectangles.getSmallRectanglesFromDNI
 import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.*;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -49,13 +50,13 @@ public class Main {
         System.load("C:/opencv/build/java/x64/opencv_java4100.dll");
 
         //Creamos la imagen a partir de la url en formato Mat
-        String filePath = "src/images/Plantilla hoja de examen ultra editada completa DNI.jpg";
+        String filePath = "src/images/Plantilla hoja de examen foto movil.jpg";
         Mat image = Imgcodecs.imread(filePath);
 
         //Imprimir imagen por pantalla
         /* HighGui.imshow("Imagen", image);
         HighGui.waitKey(0);
-        HighGui.destroyAllWindows();*/
+        HighGui.destroyAllWindows(); */
         
         //Pasamos la imagen a escala de grises para que sea más facil de interpretar
         Mat grayImage = new Mat();
@@ -77,6 +78,7 @@ public class Main {
             RotatedRect rotatedRect = Imgproc.minAreaRect(contour2f);
             Rect rect = rotatedRect.boundingRect();
 
+            if (rect.height < (image.height() / 2))
             rectangles.add(rect);
         }
 
@@ -87,7 +89,7 @@ public class Main {
         for (Rect rect : rectangles) {
             Imgproc.rectangle(image, rect, new Scalar(0, 255, 0), 2);
         }
-
+        
         //Ordenamos los rectángulos en el eje de la y
         rectangles = orderRectanglesVertical(rectangles);
 
@@ -120,9 +122,12 @@ public class Main {
         //Obtener que letra esta marcada (NIE y DNI)
         String nieLetter = getLetter(smallRectanglesFromRectangleDNI.get(0));
         String dniLetter = getLetter(smallRectanglesFromRectangleDNI.get(2));
-
+        System.out.println("Letra del NIE: " + nieLetter);
+        System.out.println("Letra del DNI: " + dniLetter);
+        
         //Obtenemos los números marcados en el NIE/DNI
         String numbers = getNumbersFromDNI(smallRectanglesFromRectangleDNI.get(1));
+        
         //Revisamos NIE/DNI letra y lo unimos al número
         if (nieLetter == "Empty" && numbers.length() == 8) {
             System.out.println("El DNI del usuario es: " + numbers + dniLetter);
@@ -146,6 +151,10 @@ public class Main {
         allSmallRectangles.addAll(getSmallRectangles(rectangleAnswers3));
         allSmallRectangles.addAll(getSmallRectangles(rectangleAnswers4));
 
+        //CHIVATO
+        String letra = getCorrectAnswer(allSmallRectangles.get(19));
+        System.out.println(letra);
+        
         //Guardamos todos los resultados en el Array de resultados con un ciclo for
         for (int i = 0; i < 40; i++) {
             results[i] = getCorrectAnswer(allSmallRectangles.get(i));
@@ -159,6 +168,10 @@ public class Main {
     private static double getMark(String[] results, String[] correctResults) {
         double mark = 0;
         for (int i = 0; i < 40; i++) {
+            if (results[i] == "Empty") {
+                System.out.println(i);
+            }
+            
             if (results[i] != "Empty") {
                 if (results[i] == correctResults[i]) {
                     mark += 1.0;
