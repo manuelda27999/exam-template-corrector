@@ -73,7 +73,7 @@ public class WorkWithCircles {
         return result;
     }
 
-    public static String getNumbers(Mat rectangle) {
+    public static String getNumbersFromDNI(Mat rectangle) {
         String result = "";
 
         Mat grayRectangle = new Mat();
@@ -87,8 +87,101 @@ public class WorkWithCircles {
             boundingRect = Imgproc.boundingRect(contours.get(0));
         }
 
+        int minRadius = rectangle.width() / 20;
+        int maxRadius = rectangle.width() / 10;
+        int minDist = rectangle.width() / 14;
+
         Mat circles = new Mat();
-        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, 20, 100, 30, 15, 30);
+        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 20, minRadius, maxRadius);
+
+        List<double[]> circlesList = new ArrayList<>();
+
+        for (int i = 0; i < circles.cols(); i++) {
+            double[] circle = circles.get(0, i);
+            Point center = new Point(circle[0], circle[1]); // (x, y)
+            int radius = (int) Math.round(circle[2]); // radio
+
+            circlesList.add(circle);
+
+            // Dibuja el centro del círculo en azul
+            Imgproc.circle(rectangle, center, 3, new Scalar(255, 0, 0), -1);
+
+            // Dibuja el contorno del círculo en verde
+            Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
+        }
+
+        circlesList = orderCirclesHorizontal(circlesList);
+
+        List<List<double[]>> allColumns = new ArrayList<>();
+        List<double[]> circlesColumn = new ArrayList<double[]>();
+
+        int amount = 0;
+        for (int i = 0; i < circlesList.size(); i++) {
+            double[] circle = circlesList.get(i);
+
+            if (amount < 10) {
+                circlesColumn.add(circle);
+                amount++;
+            } else {
+                circlesColumn = orderCirclesVertical(circlesColumn);
+                allColumns.add(circlesColumn);
+
+                circlesColumn = new ArrayList<>();
+                circlesColumn.add(circle);
+                amount = 1;
+            }
+
+            if (i == circlesList.size() - 1) {
+                circlesColumn = orderCirclesVertical(circlesColumn);
+                allColumns.add(circlesColumn);
+            }
+        }
+
+        String[] numbersArray = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
+        for (List<double[]> column : allColumns) {
+            for (int i = 0; i < 10; i++) {
+                double[] circle = column.get(i);
+
+                Point center = new Point(circle[0] + boundingRect.x, circle[1] + boundingRect.y);
+                int radius = (int) circle[2];
+
+                Rect regionOfCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
+                Mat circleSeparate = new Mat(grayRectangle, regionOfCircle);
+
+                int darkPixels = countBlackPixels(circleSeparate, 70);
+                int totalPixels = circleSeparate.rows() * circleSeparate.cols();
+
+                if (darkPixels > totalPixels * 0.5) {
+                    int index = column.indexOf(circle);
+                    result = result.concat(numbersArray[index]);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static String getNumbersFromExamCode(Mat rectangle) {
+        String result = "";
+
+        Mat grayRectangle = new Mat();
+        Imgproc.cvtColor(rectangle, grayRectangle, Imgproc.COLOR_BGR2GRAY);
+
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(grayRectangle, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        Rect boundingRect = null;
+        if (!contours.isEmpty()) {
+            boundingRect = Imgproc.boundingRect(contours.get(0));
+        }
+
+        int minRadius = rectangle.width() / 10;
+        int maxRadius = rectangle.width() / 5;
+        int minDist = rectangle.width() / 7;
+
+        Mat circles = new Mat();
+        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 30, minRadius, maxRadius);
 
         List<double[]> circlesList = new ArrayList<>();
 
@@ -193,10 +286,10 @@ public class WorkWithCircles {
             int radius = (int) circle[2];
 
             circlesList.add(circle);
-            
+
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);  // Color verde y grosor 2
         }
-        
+
         //Ordenamos los círculos en función de su posición en el eje de la x
         circlesList = orderCirclesHorizontal(circlesList);
 

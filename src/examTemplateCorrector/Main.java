@@ -4,14 +4,14 @@ import static examTemplateCorrector.OrderRectanglesAndCircles.orderRectanglesHor
 import static examTemplateCorrector.OrderRectanglesAndCircles.orderRectanglesVertical;
 import static examTemplateCorrector.WorkWithCircles.getCorrectAnswer;
 import static examTemplateCorrector.WorkWithCircles.getLetter;
-import static examTemplateCorrector.WorkWithCircles.getNumbers;
+import static examTemplateCorrector.WorkWithCircles.getNumbersFromDNI;
+import static examTemplateCorrector.WorkWithCircles.getNumbersFromExamCode;
 import static examTemplateCorrector.WorkWithRectangles.getBiggestRectangles;
 import static examTemplateCorrector.WorkWithRectangles.getSmallRectangles;
 import static examTemplateCorrector.WorkWithRectangles.getSmallRectanglesFromDNI;
 import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.*;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -122,7 +122,7 @@ public class Main {
         String dniLetter = getLetter(smallRectanglesFromRectangleDNI.get(2));
 
         //Obtenemos los números marcados en el NIE/DNI
-        String numbers = getNumbers(smallRectanglesFromRectangleDNI.get(1));
+        String numbers = getNumbersFromDNI(smallRectanglesFromRectangleDNI.get(1));
         //Revisamos NIE/DNI letra y lo unimos al número
         if (nieLetter == "Empty" && numbers.length() == 8) {
             System.out.println("El DNI del usuario es: " + numbers + dniLetter);
@@ -136,7 +136,7 @@ public class Main {
         rectangleTestCode = rectaglesFromTestCode.get(2);
 
         //Obtenemos los números del código de examen
-        String codeTest = getNumbers(rectangleTestCode);
+        String codeTest = getNumbersFromExamCode(rectangleTestCode);
         System.out.println("El codigo del test es: " + codeTest);
 
         //Obtenemos todos los pequeños rectángulos que contiene las respuestas y los unimos en una misma lista
