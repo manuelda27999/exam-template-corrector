@@ -19,26 +19,29 @@ public class Main {
 
     public static void main(String[] args) {
         //Plantilla de resultados correctos
-         String[] correctResults = {
-            "A", "B", "C", "D", "D", "C", "B", "A", "A", "D",
-            "B", "B", "B", "C", "C", "C", "D", "D", "D", "A", 
-            "C", "A", "A", "B", "B", "B", "B", "C", "C", "A",
-            "D", "D", "A", "A", "B", "B", "A", "A", "D", "A"
-        }; 
+        String[] correctResults = {
+            "A", "B", "C", "D", "D", "C", "B", "A", "A", "B",
+            "B", "B", "B", "C", "C", "C", "D", "D", "D", "B",
+            "C", "A", "A", "B", "B", "D", "D", "C", "C", "D",
+            "D", "D", "A", "A", "B", "B", "C", "C", "D", "D"
+        };
 
-        /* String[] correctResults = {
+        //Plantilla con algunos fallos
+        String[] correctResults2 = {
             "A", "B", "C", "D", "A", "B", "C", "D", "A", "B",
             "B", "B", "B", "C", "C", "C", "D", "D", "D", "A",
             "C", "A", "A", "B", "B", "B", "B", "C", "C", "A",
             "D", "D", "A", "A", "B", "B", "A", "A", "D", "A"
-        }; */
-        /* String[] correctResults = {
+        };
+        
+        //Plantilla con muchos fallos
+        String[] correctResults1 = {
             "A", "B", "C", "D", "B", "C", "D", "A", "A", "B",
             "C", "D", "A", "B", "C", "A", "B", "C", "A", "D",
             "C", "A", "A", "B", "B", "B", "B", "C", "C", "A",
             "D", "D", "A", "A", "B", "B", "A", "A", "D", "A"
-        }; */
-
+        }; 
+        
         //Aquí vamos a guardar los resultados
         String[] results = new String[40];
 
@@ -113,7 +116,7 @@ public class Main {
 
         //Obtenemos los tres subrectángulos dentro de rectangleDNI
         List<Mat> smallRectanglesFromRectangleDNI = getSmallRectanglesFromDNI(rectangleDNI);
-        
+
         //Obtener que letra esta marcada (NIE y DNI)
         String nieLetter = getLetter(smallRectanglesFromRectangleDNI.get(0));
         String dniLetter = getLetter(smallRectanglesFromRectangleDNI.get(2));
@@ -131,7 +134,7 @@ public class Main {
         //Obtenemos los dos rectángulos de test code
         List<Mat> rectaglesFromTestCode = getSmallRectanglesFromDNI(rectangleTestCode);
         rectangleTestCode = rectaglesFromTestCode.get(2);
-        
+
         //Obtenemos los números del código de examen
         String codeTest = getNumbers(rectangleTestCode);
         System.out.println("El codigo del test es: " + codeTest);
@@ -155,7 +158,6 @@ public class Main {
 
     private static double getMark(String[] results, String[] correctResults) {
         double mark = 0;
-
         for (int i = 0; i < 40; i++) {
             if (results[i] != "Empty") {
                 if (results[i] == correctResults[i]) {

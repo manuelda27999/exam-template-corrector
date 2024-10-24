@@ -11,6 +11,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
 
 public class WorkWithCircles {
@@ -174,13 +175,13 @@ public class WorkWithCircles {
         }
 
         //Establecer dimensiones del radio mínimo y máximo y de ls distancia mínima a partir de las dimensiones del rectángulo
-        int minRadius = rectangle.width() / 12;
-        int maxRadius = rectangle.width() / 6;
+        int minRadius = rectangle.width() / 14;
+        int maxRadius = rectangle.width() / 7;
         int minDist = rectangle.width() / 6;
 
         //Detectar los círculos en el área recortada
         Mat circles = new Mat();
-        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 30, minRadius, maxRadius);
+        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 80, 15, minRadius, maxRadius);
 
         //Creamos una lista donde almacenar los círculos que vamos a ordenar
         List<double[]> circlesList = new ArrayList<>();
@@ -188,9 +189,14 @@ public class WorkWithCircles {
         //Almacenamos los valores de la "x", "y" y radio en el array de double
         for (int i = 0; i < circles.cols(); i++) {
             double[] circle = circles.get(0, i);
-            circlesList.add(circle);
-        }
+            Point center = new Point(circle[0] + boundingRect.x, circle[1] + boundingRect.y);
+            int radius = (int) circle[2];
 
+            circlesList.add(circle);
+            
+            Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);  // Color verde y grosor 2
+        }
+        
         //Ordenamos los círculos en función de su posición en el eje de la x
         circlesList = orderCirclesHorizontal(circlesList);
 
@@ -217,7 +223,7 @@ public class WorkWithCircles {
             int darkPixels = countBlackPixels(circleSeparate, 70);
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
 
-            if (darkPixels > totalPixels * 0.6) {
+            if (darkPixels > totalPixels * 0.5) {
                 markedCircles[i] = true;
             } else {
                 markedCircles[i] = false;
