@@ -181,7 +181,7 @@ public class WorkWithCircles {
         }
 
         int minRadius = rectangle.width() / 10;
-        int maxRadius = rectangle.width() / 5;
+        int maxRadius = rectangle.width() / 7;
         int minDist = rectangle.width() / 7;
 
         Mat circles = new Mat();
@@ -242,10 +242,10 @@ public class WorkWithCircles {
                 Rect regionOfCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
                 Mat circleSeparate = new Mat(grayRectangle, regionOfCircle);
 
-                int darkPixels = countBlackPixels(circleSeparate, 70);
+                int darkPixels = countBlackPixels(circleSeparate, 95);
                 int totalPixels = circleSeparate.rows() * circleSeparate.cols();
 
-                if (darkPixels > totalPixels * 0.5) {
+                if (darkPixels > totalPixels * 0.4) {
                     int index = column.indexOf(circle);
                     result = result.concat(numbersArray[index]);
                 }
@@ -272,8 +272,8 @@ public class WorkWithCircles {
         }
 
         //Establecer dimensiones del radio mínimo y máximo y de ls distancia mínima a partir de las dimensiones del rectángulo
-        int minRadius = rectangle.width() / 14;
-        int maxRadius = rectangle.width() / 7;
+        int minRadius = rectangle.width() / 12;
+        int maxRadius = rectangle.width() / 9;
         int minDist = rectangle.width() / 6;
 
         //Detectar los círculos en el área recortada
@@ -312,12 +312,10 @@ public class WorkWithCircles {
             Point center = new Point(circle[0] + boundingRect.x, circle[1] + boundingRect.y);
             int radius = (int) circle[2];
 
-            
-
             //Extraer la región del círculo
             Rect regionOfCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
             Mat circleSeparate = new Mat(grayRectangle, regionOfCircle);
-            
+
             //Contar los píxeles en negro
             int darkPixels = countBlackPixels(circleSeparate, 85);
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
@@ -358,5 +356,4 @@ public class WorkWithCircles {
         }
         return blackPixelCount;
     }
-
 }

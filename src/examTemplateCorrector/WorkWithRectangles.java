@@ -51,6 +51,44 @@ public class WorkWithRectangles {
         return result;
     }
 
+    public static Mat getBigRectangleFromTestCode(Mat rectangle) {
+        Mat result = new Mat();
+
+        Mat grayImage = new Mat();
+        Imgproc.cvtColor(rectangle, grayImage, Imgproc.COLOR_BGR2GRAY);
+
+        Imgproc.GaussianBlur(grayImage, grayImage, new Size(5, 5), 1.5);
+
+        Mat edges = new Mat();
+        Imgproc.Canny(grayImage, edges, 50, 150);
+
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(edges, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        List<Rect> rectangles = new ArrayList<>();
+        for (MatOfPoint contour : contours) {
+            MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
+            RotatedRect rotatedRect = Imgproc.minAreaRect(contour2f);
+            Rect rect = rotatedRect.boundingRect();
+
+            if (rect.height > rect.width
+                    && rect.height < (rectangle.height() * 0.9)
+                    && rect.height > (rectangle.height() * 0.5)) {
+
+                Imgproc.rectangle(rectangle, rect, new Scalar(255, 0, 0), 2);
+
+                rectangles.add(rect);
+            }
+        }
+
+        rectangles = getBiggestRectangles(rectangles, 1);
+
+        Imgproc.rectangle(rectangle, rectangles.get(0), new Scalar(255, 0, 0), 2);
+        result = new Mat(rectangle, rectangles.get(0));
+
+        return result;
+    }
+
     public static List<Mat> getSmallRectanglesFromDNI(Mat rectangle) {
         List<Mat> result = new ArrayList<>();
 
@@ -58,10 +96,13 @@ public class WorkWithRectangles {
         Imgproc.cvtColor(rectangle, grayImage, Imgproc.COLOR_BGR2GRAY);
 
         Mat edges = new Mat();
-        Imgproc.Canny(grayImage, edges, 200, 100);
+        Imgproc.Canny(grayImage, edges, 100, 50);
+
+        Mat binaryImage = new Mat();
+        Imgproc.adaptiveThreshold(grayImage, binaryImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 15, 2);
 
         List<MatOfPoint> contours = new ArrayList<>();
-        Imgproc.findContours(edges, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(binaryImage, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         List<Rect> rectangles = new ArrayList<>();
         for (MatOfPoint contour : contours) {
@@ -103,21 +144,16 @@ public class WorkWithRectangles {
 
         Mat grayRectangle = new Mat();
         Imgproc.cvtColor(rectangle, grayRectangle, Imgproc.COLOR_BGR2GRAY);
-
+        
+        Mat binaryImage = new Mat();
+        Imgproc.adaptiveThreshold(grayRectangle, binaryImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 15, 2);
+        
         Mat edgesRectangle = new Mat();
-        Imgproc.Canny(grayRectangle, edgesRectangle, 100, 30);
-
-        // Aplica dilatación para cerrar espacios en las líneas
-        Mat dilatedEdges = new Mat();
-        Imgproc.dilate(edgesRectangle, dilatedEdges, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
-
-        // Aplica erosión para suavizar los bordes dilatados
-        Mat erodedEdges = new Mat();
-        Imgproc.erode(dilatedEdges, erodedEdges, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
-
+        Imgproc.Canny(binaryImage, edgesRectangle, 100, 30);
+        
         List<MatOfPoint> contoursRectangle = new ArrayList<>();
         Mat hierarchy = new Mat();
-        Imgproc.findContours(erodedEdges, contoursRectangle, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(binaryImage, contoursRectangle, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         for (MatOfPoint contour : contoursRectangle) {
             MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
@@ -143,7 +179,7 @@ public class WorkWithRectangles {
         //Seleccionamos solo los 10 más grandes
         List<Rect> resultRectanglesList = new ArrayList<>(resultRectanglesSet);
         resultRectanglesList = getBiggestRectangles(resultRectanglesList, 10);
-        
+
         //Pinto los rectángulos en la imagen proporcionada
         for (Rect rect : resultRectanglesList) {
             Imgproc.rectangle(rectangle, rect, new Scalar(0, 0, 255), 2);
@@ -160,5 +196,4 @@ public class WorkWithRectangles {
 
         return resultsMats;
     }
-
 }
