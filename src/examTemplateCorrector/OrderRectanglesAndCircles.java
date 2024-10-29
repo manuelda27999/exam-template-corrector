@@ -59,6 +59,22 @@ public class OrderRectanglesAndCircles {
         }
         return rectangles;
     }
+    
+    public static List<Rect> orderRectanglesHorizontalRespectingVertical(List<Rect> rectangles) {
+        for (int i = 0; i < (rectangles.size() - 1); i++) {
+            if (rectangles.get(i).x > rectangles.get(i + 1).x) {
+                if ((rectangles.get(i).y - rectangles.get(i + 1).y) > -20
+                        && (rectangles.get(i).y - rectangles.get(i + 1).y) < 20) {
+                    Rect saveElement = rectangles.get(i);
+                    rectangles.set(i, rectangles.get(i + 1));
+                    rectangles.set(i + 1, saveElement);
+
+                    rectangles = orderRectanglesHorizontalRespectingVertical(rectangles);
+                }
+            }
+        }
+        return rectangles;
+    }
 
     public static List<Rect> orderRectanglesHorizontal(List<Rect> rectangles) {
         for (int i = 0; i < (rectangles.size() - 1); i++) {

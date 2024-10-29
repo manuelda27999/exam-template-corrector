@@ -1,7 +1,6 @@
 package examTemplateCorrector;
 
-import static examTemplateCorrector.OrderRectanglesAndCircles.orderRectanglesHorizontal;
-import static examTemplateCorrector.OrderRectanglesAndCircles.orderRectanglesVertical;
+import static examTemplateCorrector.OrderRectanglesAndCircles.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +48,29 @@ public class WorkWithRectangles {
         }
 
         return result;
+    }
+    
+    public static List<Rect> getMainRectangles(Mat image, Mat edges) {
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(edges, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        
+        List<Rect> rectangles = new ArrayList<>();
+        for (MatOfPoint contour : contours) {
+            MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
+            Rect rect = Imgproc.minAreaRect(contour2f).boundingRect();
+            
+            if (rect.height < (image.height() / 2) && rect.width < (image.width() * 0.5) && rect.width > (image.width() * 0.1)) {
+                rectangles.add(rect);
+            }
+        }
+        
+        rectangles = orderRectanglesHorizontalRespectingVertical(orderRectanglesVertical(getBiggestRectangles(rectangles, 6)));
+        
+        for (Rect rect : rectangles) {
+            Imgproc.rectangle(image, rect, new Scalar(0, 255, 0), 2);
+        }
+        
+        return rectangles;
     }
 
     public static Mat getBigRectangleFromTestCode(Mat rectangle) {
