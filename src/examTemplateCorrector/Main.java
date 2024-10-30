@@ -18,7 +18,8 @@ public class Main extends javax.swing.JFrame {
 
         jPanelBackground = new javax.swing.JPanel();
         jLabelHolaMundo = new javax.swing.JLabel();
-        jButtonSearchImage = new javax.swing.JButton();
+        jButtonSelectCorrectTemplate = new javax.swing.JButton();
+        jButtonSelectExamToCorrect = new javax.swing.JButton();
         jLabelResults = new javax.swing.JLabel();
         jLabelDNIorNIE = new javax.swing.JLabel();
         jLabelExamCode = new javax.swing.JLabel();
@@ -36,24 +37,40 @@ public class Main extends javax.swing.JFrame {
         jLabelHolaMundo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelHolaMundo.setForeground(new java.awt.Color(0, 0, 0));
         jLabelHolaMundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelHolaMundo.setText("HELLO WORLD");
-        jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 480, 44));
+        jLabelHolaMundo.setText("HELLO WORLD S.L.");
+        jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 510, 44));
 
-        jButtonSearchImage.setBackground(new java.awt.Color(102, 102, 102));
-        jButtonSearchImage.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButtonSearchImage.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonSearchImage.setText("Search Image");
-        jButtonSearchImage.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButtonSelectCorrectTemplate.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonSelectCorrectTemplate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButtonSelectCorrectTemplate.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonSelectCorrectTemplate.setText("Select correct template");
+        jButtonSelectCorrectTemplate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonSearchImageMouseClicked(evt);
+                jButtonSelectCorrectTemplateMouseClicked(evt);
             }
         });
-        jButtonSearchImage.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSelectCorrectTemplate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSearchImageActionPerformed(evt);
+                jButtonSelectCorrectTemplateActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSearchImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, 70));
+        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 230, 70));
+
+        jButtonSelectExamToCorrect.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonSelectExamToCorrect.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButtonSelectExamToCorrect.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonSelectExamToCorrect.setText("Select exam to correct");
+        jButtonSelectExamToCorrect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonSelectExamToCorrectMouseClicked(evt);
+            }
+        });
+        jButtonSelectExamToCorrect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSelectExamToCorrectActionPerformed(evt);
+            }
+        });
+        jPanelBackground.add(jButtonSelectExamToCorrect, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 230, 70));
 
         jLabelResults.setBackground(new java.awt.Color(255, 255, 255));
         jLabelResults.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -103,11 +120,11 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonSearchImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchImageActionPerformed
+    private void jButtonSelectExamToCorrectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectExamToCorrectActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSearchImageActionPerformed
+    }//GEN-LAST:event_jButtonSelectExamToCorrectActionPerformed
 
-    private void jButtonSearchImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSearchImageMouseClicked
+    private void jButtonSelectExamToCorrectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectExamToCorrectMouseClicked
         
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
@@ -129,7 +146,34 @@ public class Main extends javax.swing.JFrame {
         } else {
             System.out.println("Selección de archivo cancelada");
         }
-    }//GEN-LAST:event_jButtonSearchImageMouseClicked
+    }//GEN-LAST:event_jButtonSelectExamToCorrectMouseClicked
+
+    private void jButtonSelectCorrectTemplateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectCorrectTemplateMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
+        fileChooser.setCurrentDirectory(new File("C:\\Users\\loco8\\Downloads"));
+        
+        int result = fileChooser.showOpenDialog(null);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            
+            path = selectedFile.getAbsolutePath();
+                        
+            MainController mainController = new MainController(path);
+
+            jLabelDNIorNIEResult.setText(mainController.getDniOrNieResult());
+            jLabelExamCodeResult.setText(mainController.getExamCodeResult());
+            jLabelMarkResult.setText(mainController.getExamMarkResult());
+            
+        } else {
+            System.out.println("Selección de archivo cancelada");
+        }
+    }//GEN-LAST:event_jButtonSelectCorrectTemplateMouseClicked
+
+    private void jButtonSelectCorrectTemplateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectCorrectTemplateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSelectCorrectTemplateActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -158,7 +202,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonSearchImage;
+    private javax.swing.JButton jButtonSelectCorrectTemplate;
+    private javax.swing.JButton jButtonSelectExamToCorrect;
     private javax.swing.JLabel jLabelDNIorNIE;
     private javax.swing.JLabel jLabelDNIorNIEResult;
     private javax.swing.JLabel jLabelExamCode;
