@@ -1,12 +1,11 @@
 package examTemplateCorrector;
 
-import static examTemplateCorrector.OrderRectanglesAndCircles.*;
+import database.UtilityCSV;
 import static examTemplateCorrector.WorkWithCircles.*;
 import static examTemplateCorrector.WorkWithRectangles.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.*;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -100,12 +99,10 @@ public class MainController {
         return (score / TOTAL_QUESTIONS) * 10;
     }
     
-    private String[] initializeCorrectResults() {
-        return new String[] {
-            "A", "B", "C", "D", "D", "C", "B", "A", "A", "B",
-            "B", "B", "B", "C", "C", "C", "D", "D", "D", "B",
-            "C", "A", "A", "B", "B", "D", "D", "C", "C", "D",
-            "D", "D", "A", "A", "B", "B", "C", "C", "D", "D"
-        };
+    private String[] initializeCorrectResults() {   
+     
+        String[] array = UtilityCSV.getCorrectAnswersFromDataBase(Integer.parseInt(examCodeResult));
+        
+        return array;
     }
 }
