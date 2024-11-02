@@ -1,5 +1,6 @@
 package examTemplateCorrector;
 
+import static database.UtilityCSV.saveCorrectExamTemplate;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,13 +36,12 @@ public class Main extends javax.swing.JFrame {
 
         jLabelHolaMundo.setBackground(new java.awt.Color(255, 255, 255));
         jLabelHolaMundo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelHolaMundo.setForeground(new java.awt.Color(0, 0, 0));
         jLabelHolaMundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelHolaMundo.setText("HELLO WORLD S.L.");
         jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 510, 44));
 
         jButtonSelectCorrectTemplate.setBackground(new java.awt.Color(102, 102, 102));
-        jButtonSelectCorrectTemplate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButtonSelectCorrectTemplate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonSelectCorrectTemplate.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSelectCorrectTemplate.setText("Select correct template");
         jButtonSelectCorrectTemplate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -54,10 +54,10 @@ public class Main extends javax.swing.JFrame {
                 jButtonSelectCorrectTemplateActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 230, 70));
+        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 240, 70));
 
         jButtonSelectExamToCorrect.setBackground(new java.awt.Color(102, 102, 102));
-        jButtonSelectExamToCorrect.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButtonSelectExamToCorrect.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonSelectExamToCorrect.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSelectExamToCorrect.setText("Select exam to correct");
         jButtonSelectExamToCorrect.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -74,43 +74,36 @@ public class Main extends javax.swing.JFrame {
 
         jLabelResults.setBackground(new java.awt.Color(255, 255, 255));
         jLabelResults.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelResults.setForeground(new java.awt.Color(0, 0, 0));
         jLabelResults.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResults.setText("Results:");
-        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 480, 44));
+        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 510, 44));
 
         jLabelDNIorNIE.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelDNIorNIE.setForeground(new java.awt.Color(0, 0, 0));
         jLabelDNIorNIE.setText("DNI or NIE:");
         jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 80, -1));
 
         jLabelExamCode.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelExamCode.setForeground(new java.awt.Color(0, 0, 0));
         jLabelExamCode.setText("Exam code:");
         jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 80, -1));
 
         jLabelMark.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelMark.setForeground(new java.awt.Color(0, 0, 0));
         jLabelMark.setText("Mark:");
         jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 80, -1));
 
         jLabelDNIorNIEResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelDNIorNIEResult.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 100, -1));
 
         jLabelExamCodeResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelExamCodeResult.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 70, -1));
 
         jLabelMarkResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelMarkResult.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 50, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+            .addComponent(jPanelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +121,7 @@ public class Main extends javax.swing.JFrame {
         
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
-        fileChooser.setCurrentDirectory(new File("C:\\Users\\loco8\\Downloads"));
+        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
         
         int result = fileChooser.showOpenDialog(null);
         
@@ -137,11 +130,11 @@ public class Main extends javax.swing.JFrame {
             
             path = selectedFile.getAbsolutePath();
                         
-            MainController mainController = new MainController(path);
+            CorrectExamController correctExamController = new CorrectExamController(path);
 
-            jLabelDNIorNIEResult.setText(mainController.getDniOrNieResult());
-            jLabelExamCodeResult.setText(mainController.getExamCodeResult());
-            jLabelMarkResult.setText(mainController.getExamMarkResult());
+            jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
+            jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
+            jLabelMarkResult.setText(correctExamController.getExamMarkResult());
             
         } else {
             System.out.println("Selección de archivo cancelada");
@@ -151,7 +144,7 @@ public class Main extends javax.swing.JFrame {
     private void jButtonSelectCorrectTemplateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectCorrectTemplateMouseClicked
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
-        fileChooser.setCurrentDirectory(new File("C:\\Users\\loco8\\Downloads"));
+        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
         
         int result = fileChooser.showOpenDialog(null);
         
@@ -160,11 +153,12 @@ public class Main extends javax.swing.JFrame {
             
             path = selectedFile.getAbsolutePath();
                         
-            MainController mainController = new MainController(path);
+            SaveExamTemplateController correctExamController = new SaveExamTemplateController(path);
+            
+            String examCode = correctExamController.getExamCodeResult();
+            String[] resultString = correctExamController.getArrayResult();
 
-            jLabelDNIorNIEResult.setText(mainController.getDniOrNieResult());
-            jLabelExamCodeResult.setText(mainController.getExamCodeResult());
-            jLabelMarkResult.setText(mainController.getExamMarkResult());
+            saveCorrectExamTemplate(examCode, resultString);
             
         } else {
             System.out.println("Selección de archivo cancelada");

@@ -9,7 +9,7 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
-public class MainController {
+public class CorrectExamController {
 
     private static final int TOTAL_QUESTIONS = 40;
     private static final double CORRECT_SCORE = 1.0;
@@ -20,8 +20,9 @@ public class MainController {
     private String examMarkResult;
     private String[] results;
 
-    public MainController(String path) {
-        System.load("C:/opencv/build/java/x64/opencv_java4100.dll");
+    public CorrectExamController(String path) {
+        System.load("/opt/homebrew/Cellar/opencv/4.10.0_12/share/java/opencv4/libopencv_java4100.dylib");
+
         results = new String[TOTAL_QUESTIONS];
         processImage(path);
     }
@@ -37,13 +38,17 @@ public class MainController {
     public String getExamMarkResult() {
         return examMarkResult;
     }
+    
+    public String[] getArrayResult() {
+        return results;
+    }
 
     private void processImage(String path) {
         //Imprimir imagen por pantalla
         /* HighGui.imshow("Imagen", image);
         HighGui.waitKey(0);
         HighGui.destroyAllWindows(); */
-        
+
         Mat image = Imgcodecs.imread(path);
         Mat grayImage = new Mat();
         Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
@@ -55,18 +60,18 @@ public class MainController {
         processExamCode(image, rectangles.get(1));
         calculateExamScore(image, rectangles.subList(2, 6));
     }
-    
+
     private void processDNINumber(Mat image, Rect rectangleDNI) {
         List<Mat> smallRects = getSmallRectanglesFromDNI(new Mat(image, rectangleDNI));
         String nieLetter = getLetter(smallRects.get(0));
         String dniLetter = getLetter(smallRects.get(2));
         String numbers = getNumbersFromDNI(smallRects.get(1));
-        
-        dniOrNieResult = (nieLetter.equals("Empty") && numbers.length() == 8) 
-                            ? numbers + dniLetter 
-                            : nieLetter + numbers + dniLetter;
+
+        dniOrNieResult = (nieLetter.equals("Empty") && numbers.length() == 8)
+                ? numbers + dniLetter
+                : nieLetter + numbers + dniLetter;
     }
-    
+
     private void processExamCode(Mat image, Rect rectangleTestCode) {
         Mat testCodeMat = new Mat(image, rectangleTestCode);
         Mat bigTestCodeRectangle = getBigRectangleFromTestCode(testCodeMat);
@@ -76,7 +81,7 @@ public class MainController {
     private void calculateExamScore(Mat image, List<Rect> answerRectangles) {
         String[] correctResults = initializeCorrectResults();
         List<Mat> allSmallRects = new ArrayList<>();
-        
+
         for (Rect rect : answerRectangles) {
             allSmallRects.addAll(getSmallRectangles(new Mat(image, rect)));
         }
@@ -98,11 +103,11 @@ public class MainController {
 
         return (score / TOTAL_QUESTIONS) * 10;
     }
-    
-    private String[] initializeCorrectResults() {   
-     
+
+    private String[] initializeCorrectResults() {
+
         String[] array = UtilityCSV.getCorrectAnswersFromDataBase(Integer.parseInt(examCodeResult));
-        
+
         return array;
     }
 }
