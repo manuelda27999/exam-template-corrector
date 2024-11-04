@@ -45,12 +45,8 @@ public class SaveExamTemplateController {
         HighGui.destroyAllWindows(); */
 
         Mat image = Imgcodecs.imread(path);
-        Mat grayImage = new Mat();
-        Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
-        Mat edges = new Mat();
-        Imgproc.Canny(grayImage, edges, 200, 100);
-
-        List<Rect> rectangles = getMainRectangles(image, edges);
+        
+        List<Rect> rectangles = getMainRectangles(image);
         processExamCode(image, rectangles.get(1));
         calculateExamScore(image, rectangles.subList(2, 6));
     }

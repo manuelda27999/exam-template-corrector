@@ -12,8 +12,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
+import static utilities.Utilities.PrintImage;
 
 public class WorkWithRectangles {
 
@@ -49,27 +49,35 @@ public class WorkWithRectangles {
 
         return result;
     }
-    
-    public static List<Rect> getMainRectangles(Mat image, Mat edges) {
+
+    public static List<Rect> getMainRectangles(Mat image) {
+        Mat grayImage = new Mat();
+        Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
+
+        Mat edges = new Mat();
+        Imgproc.Canny(grayImage, edges, 200, 100);
+
+        Imgproc.GaussianBlur(edges, edges, new Size(5, 5), 1.5);
+
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(edges, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        
+
         List<Rect> rectangles = new ArrayList<>();
         for (MatOfPoint contour : contours) {
             MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
             Rect rect = Imgproc.minAreaRect(contour2f).boundingRect();
-            
+
             if (rect.height < (image.height() / 2) && rect.width < (image.width() * 0.5) && rect.width > (image.width() * 0.1)) {
                 rectangles.add(rect);
             }
         }
-        
+
         rectangles = orderRectanglesHorizontalRespectingVertical(orderRectanglesVertical(getBiggestRectangles(rectangles, 6)));
-        
+
         for (Rect rect : rectangles) {
             Imgproc.rectangle(image, rect, new Scalar(0, 255, 0), 2);
         }
-        
+
         return rectangles;
     }
 
@@ -116,15 +124,19 @@ public class WorkWithRectangles {
 
         Mat grayImage = new Mat();
         Imgproc.cvtColor(rectangle, grayImage, Imgproc.COLOR_BGR2GRAY);
-
-        Mat edges = new Mat();
-        Imgproc.Canny(grayImage, edges, 100, 50);
+        
+        Imgproc.GaussianBlur(grayImage, grayImage, new Size(5, 5), 1.5);
 
         Mat binaryImage = new Mat();
         Imgproc.adaptiveThreshold(grayImage, binaryImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 15, 2);
+        
+        Mat dilated = new Mat();
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
+        Imgproc.erode(binaryImage, dilated, kernel);
+        Imgproc.dilate(dilated, dilated, kernel);   
 
         List<MatOfPoint> contours = new ArrayList<>();
-        Imgproc.findContours(binaryImage, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(dilated, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         List<Rect> rectangles = new ArrayList<>();
         for (MatOfPoint contour : contours) {
@@ -166,16 +178,21 @@ public class WorkWithRectangles {
 
         Mat grayRectangle = new Mat();
         Imgproc.cvtColor(rectangle, grayRectangle, Imgproc.COLOR_BGR2GRAY);
-        
-        Mat binaryImage = new Mat();
-        Imgproc.adaptiveThreshold(grayRectangle, binaryImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 15, 2);
-        
-        Mat edgesRectangle = new Mat();
-        Imgproc.Canny(binaryImage, edgesRectangle, 100, 30);
-        
+
+        Imgproc.GaussianBlur(grayRectangle, grayRectangle, new Size(5, 5), 1.5);
+
+        Mat binaryRectangle = new Mat();
+        Imgproc.adaptiveThreshold(grayRectangle, binaryRectangle, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 11, 2);
+
+        //Para completar líneas esta combinación esta muy bien
+        Mat dilated = new Mat();
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+        Imgproc.erode(binaryRectangle, dilated, kernel);
+        Imgproc.dilate(dilated, dilated, kernel);      
+
         List<MatOfPoint> contoursRectangle = new ArrayList<>();
         Mat hierarchy = new Mat();
-        Imgproc.findContours(binaryImage, contoursRectangle, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(dilated, contoursRectangle, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         for (MatOfPoint contour : contoursRectangle) {
             MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
@@ -184,7 +201,7 @@ public class WorkWithRectangles {
 
             //Filtramos los valores que cumplen con las condiciones adecuadas y añadimos solo una vez los valores una vez, obviando los repetidos
             Boolean exist = false;
-            if (rect.height < rect.width && rect.width > (rectangle.width() * 0.7) && rect.height < (rectangle.height() * 0.15)) {
+            if (rect.height < rect.width && rect.width > (rectangle.width() * 0.6) && rect.height < (rectangle.height() * 0.15)) {
                 for (Rect rectOfResult : resultRectanglesSet) {
                     if (rectOfResult.y == rect.y || Math.abs(rectOfResult.y - rect.y) <= 3) {
                         exist = true;

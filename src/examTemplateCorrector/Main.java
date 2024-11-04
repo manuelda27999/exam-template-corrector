@@ -8,7 +8,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Main extends javax.swing.JFrame {
 
     String path = "";
-    
+
     public Main() {
         initComponents();
     }
@@ -28,6 +28,7 @@ public class Main extends javax.swing.JFrame {
         jLabelDNIorNIEResult = new javax.swing.JLabel();
         jLabelExamCodeResult = new javax.swing.JLabel();
         jLabelMarkResult = new javax.swing.JLabel();
+        jLabelExamTemplateSave = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,6 +100,10 @@ public class Main extends javax.swing.JFrame {
         jLabelMarkResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 50, -1));
 
+        jLabelExamTemplateSave.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        jLabelExamTemplateSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelBackground.add(jLabelExamTemplateSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 430, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,7 +112,7 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -118,24 +123,25 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSelectExamToCorrectActionPerformed
 
     private void jButtonSelectExamToCorrectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectExamToCorrectMouseClicked
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
         fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
-        
+
         int result = fileChooser.showOpenDialog(null);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            
+
             path = selectedFile.getAbsolutePath();
-                        
+
             CorrectExamController correctExamController = new CorrectExamController(path);
 
             jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
             jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
             jLabelMarkResult.setText(correctExamController.getExamMarkResult());
-            
+
+            jLabelExamTemplateSave.setText("");
         } else {
             System.out.println("Selección de archivo cancelada");
         }
@@ -145,21 +151,22 @@ public class Main extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
         fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
-        
+
         int result = fileChooser.showOpenDialog(null);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            
+
             path = selectedFile.getAbsolutePath();
-                        
+
             SaveExamTemplateController correctExamController = new SaveExamTemplateController(path);
-            
+
             String examCode = correctExamController.getExamCodeResult();
             String[] resultString = correctExamController.getArrayResult();
 
             saveCorrectExamTemplate(examCode, resultString);
-            
+
+            jLabelExamTemplateSave.setText("Correct template save susccessfully");
         } else {
             System.out.println("Selección de archivo cancelada");
         }
@@ -202,6 +209,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelDNIorNIEResult;
     private javax.swing.JLabel jLabelExamCode;
     private javax.swing.JLabel jLabelExamCodeResult;
+    private javax.swing.JLabel jLabelExamTemplateSave;
     private javax.swing.JLabel jLabelHolaMundo;
     private javax.swing.JLabel jLabelMark;
     private javax.swing.JLabel jLabelMarkResult;

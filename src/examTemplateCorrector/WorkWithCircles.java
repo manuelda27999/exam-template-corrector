@@ -11,8 +11,8 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
+import static utilities.Utilities.PrintImage;
 
 public class WorkWithCircles {
 
@@ -30,12 +30,12 @@ public class WorkWithCircles {
             boundingRect = Imgproc.boundingRect(contours.get(0));
         }
 
-        int minDist = rectangle.width() / 10;
-        int minRadius = rectangle.width() / 14;
-        int maxRadius = rectangle.width() / 8;
+        int minDist = rectangle.width() / 12;
+        int minRadius = rectangle.width() / 11;
+        int maxRadius = rectangle.width() / 9;
 
         Mat circles = new Mat();
-        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 30, minRadius, maxRadius);
+        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 15, minRadius, maxRadius);
 
         List<double[]> circlesList = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class WorkWithCircles {
             // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
-
+        
         circlesList = orderCirclesVertical(circlesList);
         circlesList = orderCirclesHorizontalRespectingVertical(circlesList);
 
@@ -180,12 +180,12 @@ public class WorkWithCircles {
             boundingRect = Imgproc.boundingRect(contours.get(0));
         }
 
-        int minRadius = rectangle.width() / 10;
-        int maxRadius = rectangle.width() / 7;
+        int minRadius = rectangle.width() / 11;
+        int maxRadius = rectangle.width() / 8;
         int minDist = rectangle.width() / 7;
 
         Mat circles = new Mat();
-        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 30, minRadius, maxRadius);
+        Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 20, minRadius, maxRadius);
 
         List<double[]> circlesList = new ArrayList<>();
 
