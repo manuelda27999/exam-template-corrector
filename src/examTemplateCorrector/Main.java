@@ -1,9 +1,13 @@
 package examTemplateCorrector;
 
+import examTemplateCorrector.logic.CorrectExamController;
+import examTemplateCorrector.logic.SaveExamTemplateController;
 import static database.UtilityCSV.saveCorrectExamTemplate;
+import examTemplateCorrector.view.ErrorModal;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import utilities.MyException;
 
 public class Main extends javax.swing.JFrame {
 
@@ -135,13 +139,25 @@ public class Main extends javax.swing.JFrame {
 
             path = selectedFile.getAbsolutePath();
 
-            CorrectExamController correctExamController = new CorrectExamController(path);
+            try {
+                CorrectExamController correctExamController = new CorrectExamController(path);
 
-            jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
-            jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
-            jLabelMarkResult.setText(correctExamController.getExamMarkResult());
+                jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
+                jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
+                jLabelMarkResult.setText(correctExamController.getExamMarkResult());
 
-            jLabelExamTemplateSave.setText("");
+                jLabelExamTemplateSave.setText("");
+                
+            } catch (MyException e) {
+                ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
+                jDialog.setVisible(true);
+            } catch (Exception e) {
+                String message = e.getMessage() != null ? e.getMessage() : "Error desconocido";
+
+                ErrorModal jDialog = new ErrorModal(this, true, message);
+                jDialog.setVisible(true);
+            }
+
         } else {
             System.out.println("Selección de archivo cancelada");
         }
@@ -158,15 +174,26 @@ public class Main extends javax.swing.JFrame {
             File selectedFile = fileChooser.getSelectedFile();
 
             path = selectedFile.getAbsolutePath();
+            
+            try {
+                SaveExamTemplateController saveExamTemplateController = new SaveExamTemplateController(path);
 
-            SaveExamTemplateController correctExamController = new SaveExamTemplateController(path);
+                String examCode = saveExamTemplateController.getExamCodeResult();
+                String[] resultString = saveExamTemplateController.getArrayResult();
 
-            String examCode = correctExamController.getExamCodeResult();
-            String[] resultString = correctExamController.getArrayResult();
+                saveCorrectExamTemplate(examCode, resultString);
 
-            saveCorrectExamTemplate(examCode, resultString);
+                jLabelExamTemplateSave.setText("Correct template save susccessfully");
+                
+            } catch (MyException e) {
+                ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
+                jDialog.setVisible(true);
+            } catch (Exception e) {
+                String message = e.getMessage() != null ? e.getMessage() : "Error desconocido";
 
-            jLabelExamTemplateSave.setText("Correct template save susccessfully");
+                ErrorModal jDialog = new ErrorModal(this, true, message);
+                jDialog.setVisible(true);
+            }
         } else {
             System.out.println("Selección de archivo cancelada");
         }
