@@ -63,11 +63,12 @@ public class CorrectExamController {
         List<Mat> smallRects = getSmallRectanglesFromDNI(new Mat(image, rectangleDNI));
         String nieLetter = getLetter(smallRects.get(0));
         String dniLetter = getLetter(smallRects.get(2));
-        
-        if (nieLetter == "Empty" && dniLetter == "Empty") throw new MyException("Letters of DNI and NIE not found, try to take another picture");
-        
         String numbers = getNumbersFromDNI(smallRects.get(1));
-        if (numbers.length() != 7 && numbers.length() != 8) throw new MyException("Numbers of DNI or NIE not found, try to take another picture");
+
+        if (numbers.length() != 7 && numbers.length() != 8) throw new MyException("Numbers of the DNI or NIE not found, try to take another picture");
+        if (nieLetter == "Empty" && dniLetter == "Empty") throw new MyException("Letters of DNI and NIE not found, try to take another picture");
+        if (numbers.length() == 8 && nieLetter != "Empty") throw new MyException("The numbers of the NIE isn't correct, try to take another picture");       
+        if (numbers.length() == 7 && nieLetter == "Empty") throw new MyException("Numbers of DNI not correct or not found, try to take another picture");
 
         dniOrNieResult = (nieLetter.equals("Empty") && numbers.length() == 8)
                 ? numbers + dniLetter

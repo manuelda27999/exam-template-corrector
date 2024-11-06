@@ -127,7 +127,6 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSelectExamToCorrectActionPerformed
 
     private void jButtonSelectExamToCorrectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectExamToCorrectMouseClicked
-
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
         fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
@@ -184,6 +183,10 @@ public class Main extends javax.swing.JFrame {
                 saveCorrectExamTemplate(examCode, resultString);
 
                 jLabelExamTemplateSave.setText("Correct template save susccessfully");
+                
+                jLabelDNIorNIEResult.setText("");
+                jLabelExamCodeResult.setText("");
+                jLabelMarkResult.setText("");
                 
             } catch (MyException e) {
                 ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
