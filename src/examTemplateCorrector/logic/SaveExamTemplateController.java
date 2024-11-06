@@ -42,6 +42,12 @@ public class SaveExamTemplateController {
         HighGui.destroyAllWindows(); */
 
         Mat image = Imgcodecs.imread(path);
+        
+        Mat sheet = getSheet(image);
+        
+        if (!sheet.empty()) {
+            image = sheet;
+        }
 
         List<Rect> rectangles = getMainRectangles(image);
         if (rectangles.size() != 6) {

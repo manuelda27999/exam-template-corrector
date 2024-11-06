@@ -52,7 +52,7 @@ public class WorkWithCircles {
             // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
-        
+
         circlesList = orderCirclesVertical(circlesList);
         circlesList = orderCirclesHorizontalRespectingVertical(circlesList);
 
@@ -64,7 +64,7 @@ public class WorkWithCircles {
 
             Rect regionCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
             Mat circleSeparate = new Mat(grayRectangle, regionCircle);
-
+                        
             int darkPixels = countBlackPixels(circleSeparate, 70);
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
 
@@ -93,7 +93,7 @@ public class WorkWithCircles {
 
         int minDist = rectangle.width() / 16;
         int minRadius = rectangle.width() / 24;
-        int maxRadius = rectangle.width() / 18;
+        int maxRadius = rectangle.width() / 16;
 
         Mat circles = new Mat();
         Imgproc.HoughCircles(grayRectangle, circles, Imgproc.CV_HOUGH_GRADIENT, 1, minDist, 100, 20, minRadius, maxRadius);
@@ -113,6 +113,8 @@ public class WorkWithCircles {
             // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
+        
+        PrintImage(rectangle);
 
         circlesList = orderCirclesHorizontal(circlesList);
 
@@ -293,7 +295,7 @@ public class WorkWithCircles {
 
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);  // Color verde y grosor 2
         }
-
+        
         //Ordenamos los círculos en función de su posición en el eje de la x
         circlesList = orderCirclesHorizontal(circlesList);
 
@@ -319,7 +321,7 @@ public class WorkWithCircles {
             //Contar los píxeles en negro
             int darkPixels = countBlackPixels(circleSeparate, 85);
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
-
+            
             if (darkPixels > totalPixels * 0.4) {
                 markedCircles[i] = true;
             } else {
@@ -340,7 +342,7 @@ public class WorkWithCircles {
         if (markedCircles[3]) {
             result = "D";
         }
-
+        
         return result;
     }
 

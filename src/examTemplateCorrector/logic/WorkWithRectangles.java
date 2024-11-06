@@ -50,6 +50,37 @@ public class WorkWithRectangles {
         return result;
     }
 
+    public static Mat getSheet(Mat image) {
+        Mat grayImage = new Mat();
+        Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
+
+        Mat edges = new Mat();
+        Imgproc.Canny(grayImage, edges, 200, 100);
+
+        Imgproc.GaussianBlur(edges, edges, new Size(5, 5), 1.5);
+
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(edges, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        Rect sheetRectangle = new Rect();
+        for (MatOfPoint contour : contours) {
+            MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
+            Rect rect = Imgproc.minAreaRect(contour2f).boundingRect();
+
+            if (rect.height > (image.height() * 0.6) && rect.width > (image.width() * 0.6)
+                    && rect.x > 0 && rect.y > 0) {
+                sheetRectangle = rect;
+            }
+        }
+
+        if (sheetRectangle.width > 0 && sheetRectangle.height > 0) {
+            Mat sheetMat = new Mat(image, sheetRectangle);
+            return sheetMat;
+        } else {
+            return new Mat();
+        }
+    }
+
     public static List<Rect> getMainRectangles(Mat image) {
         Mat grayImage = new Mat();
         Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
@@ -75,8 +106,11 @@ public class WorkWithRectangles {
         rectangles = orderRectanglesHorizontalRespectingVertical(orderRectanglesVertical(getBiggestRectangles(rectangles, 6)));
 
         for (Rect rect : rectangles) {
+            //System.out.println("y:"+ rect.y + " x:" + rect.x);
             Imgproc.rectangle(image, rect, new Scalar(0, 255, 0), 2);
         }
+        
+        //PrintImage(image);
 
         return rectangles;
     }
@@ -124,17 +158,17 @@ public class WorkWithRectangles {
 
         Mat grayImage = new Mat();
         Imgproc.cvtColor(rectangle, grayImage, Imgproc.COLOR_BGR2GRAY);
-        
-        Imgproc.GaussianBlur(grayImage, grayImage, new Size(5, 5), 1.5);
+
+        Imgproc.GaussianBlur(grayImage, grayImage, new Size(7, 7), 2);
 
         Mat binaryImage = new Mat();
         Imgproc.adaptiveThreshold(grayImage, binaryImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 15, 2);
-        
-        Mat dilated = new Mat();
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
-        Imgproc.erode(binaryImage, dilated, kernel);
-        Imgproc.dilate(dilated, dilated, kernel);   
 
+        Mat dilated = new Mat();
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+        Imgproc.erode(binaryImage, dilated, kernel);
+        Imgproc.dilate(dilated, dilated, kernel);
+        
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(dilated, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
@@ -168,7 +202,7 @@ public class WorkWithRectangles {
             Mat smallRectangle = new Mat(rectangle, rect);
             result.add(smallRectangle);
         }
-
+        
         return result;
     }
 
@@ -188,7 +222,7 @@ public class WorkWithRectangles {
         Mat dilated = new Mat();
         Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
         Imgproc.erode(binaryRectangle, dilated, kernel);
-        Imgproc.dilate(dilated, dilated, kernel);      
+        Imgproc.dilate(dilated, dilated, kernel);
 
         List<MatOfPoint> contoursRectangle = new ArrayList<>();
         Mat hierarchy = new Mat();
@@ -229,6 +263,7 @@ public class WorkWithRectangles {
 
         //Creamos a partir de cada rectángulo un Mat que vamos a meter en resultsMat
         for (Rect rect : resultRectanglesList) {
+
             Mat smallImage = new Mat(rectangle, rect);
             resultsMats.add(smallImage);
         }

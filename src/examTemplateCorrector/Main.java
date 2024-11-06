@@ -128,8 +128,8 @@ public class Main extends javax.swing.JFrame {
 
     private void jButtonSelectExamToCorrectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectExamToCorrectMouseClicked
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
-        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg", "png"));
+        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads/exámenes"));
 
         int result = fileChooser.showOpenDialog(null);
 
@@ -150,12 +150,7 @@ public class Main extends javax.swing.JFrame {
             } catch (MyException e) {
                 ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
                 jDialog.setVisible(true);
-            } catch (Exception e) {
-                String message = e.getMessage() != null ? e.getMessage() : "Error desconocido";
-
-                ErrorModal jDialog = new ErrorModal(this, true, message);
-                jDialog.setVisible(true);
-            }
+            } 
 
         } else {
             System.out.println("Selección de archivo cancelada");
@@ -164,8 +159,8 @@ public class Main extends javax.swing.JFrame {
 
     private void jButtonSelectCorrectTemplateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectCorrectTemplateMouseClicked
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
-        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg", "png"));
+        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads/exámenes"));
 
         int result = fileChooser.showOpenDialog(null);
 
@@ -191,12 +186,7 @@ public class Main extends javax.swing.JFrame {
             } catch (MyException e) {
                 ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
                 jDialog.setVisible(true);
-            } catch (Exception e) {
-                String message = e.getMessage() != null ? e.getMessage() : "Error desconocido";
-
-                ErrorModal jDialog = new ErrorModal(this, true, message);
-                jDialog.setVisible(true);
-            }
+            } 
         } else {
             System.out.println("Selección de archivo cancelada");
         }

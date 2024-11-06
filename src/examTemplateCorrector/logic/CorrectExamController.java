@@ -50,6 +50,12 @@ public class CorrectExamController {
         HighGui.destroyAllWindows(); */
 
         Mat image = Imgcodecs.imread(path);
+        
+        Mat sheet = getSheet(image);
+        
+        if (!sheet.empty()) {
+            image = sheet;
+        }
 
         List<Rect> rectangles = getMainRectangles(image);
         if (rectangles.size() != 6) throw new MyException("Main rectangles(DNI/NIE rectangle, exam code rectangle, answers rectangles) not found, try to take another picture");
@@ -64,6 +70,10 @@ public class CorrectExamController {
         String nieLetter = getLetter(smallRects.get(0));
         String dniLetter = getLetter(smallRects.get(2));
         String numbers = getNumbersFromDNI(smallRects.get(1));
+        
+        if (nieLetter != "Empty" && numbers.length() == 8 && numbers.charAt(0) == '0') {
+            numbers = numbers.substring(1);
+        }
 
         if (numbers.length() != 7 && numbers.length() != 8) throw new MyException("Numbers of the DNI or NIE not found, try to take another picture");
         if (nieLetter == "Empty" && dniLetter == "Empty") throw new MyException("Letters of DNI and NIE not found, try to take another picture");
@@ -97,7 +107,7 @@ public class CorrectExamController {
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
             results[i] = getCorrectAnswer(allSmallRects.get(i));
         }
-
+        
         examMarkResult = String.valueOf(getMark(results, correctResults));
     }
 

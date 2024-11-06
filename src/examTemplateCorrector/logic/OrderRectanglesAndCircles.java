@@ -21,8 +21,8 @@ public class OrderRectanglesAndCircles {
     public static List<double[]> orderCirclesHorizontalRespectingVertical(List<double[]> circles) {
         for (int i = 0; i < (circles.size() - 1); i++) {
             if (circles.get(i)[0] > circles.get(i + 1)[0]) {
-                if ((circles.get(i)[1] - circles.get(i + 1)[1]) > -2
-                        && (circles.get(i)[1] - circles.get(i + 1)[1]) < 2) {
+                if ((circles.get(i)[1] - circles.get(i + 1)[1]) > -4
+                        && (circles.get(i)[1] - circles.get(i + 1)[1]) < 4) {
                     double[] saveElement = circles.get(i);
                     circles.set(i, circles.get(i + 1));
                     circles.set(i + 1, saveElement);
@@ -63,8 +63,8 @@ public class OrderRectanglesAndCircles {
     public static List<Rect> orderRectanglesHorizontalRespectingVertical(List<Rect> rectangles) {
         for (int i = 0; i < (rectangles.size() - 1); i++) {
             if (rectangles.get(i).x > rectangles.get(i + 1).x) {
-                if ((rectangles.get(i).y - rectangles.get(i + 1).y) > -20
-                        && (rectangles.get(i).y - rectangles.get(i + 1).y) < 20) {
+                if ((rectangles.get(i).y - rectangles.get(i + 1).y) > -40
+                        && (rectangles.get(i).y - rectangles.get(i + 1).y) < 40) {
                     Rect saveElement = rectangles.get(i);
                     rectangles.set(i, rectangles.get(i + 1));
                     rectangles.set(i + 1, saveElement);
