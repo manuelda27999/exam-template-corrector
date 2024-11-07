@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
+import static utilities.AllUtilities.CreateImage;
 import utilities.MyException;
 
 public class SaveExamTemplateController {
@@ -15,6 +16,11 @@ public class SaveExamTemplateController {
     private String examCodeResult;
     private String examMarkResult;
     private String[] results;
+    private String answersRectangle1;    
+    private String answersRectangle2;
+    private String answersRectangle3;
+    private String answersRectangle4;
+
 
     public SaveExamTemplateController(String path) throws MyException {
         System.load("/opt/homebrew/Cellar/opencv/4.10.0_12/share/java/opencv4/libopencv_java4100.dylib");
@@ -33,6 +39,22 @@ public class SaveExamTemplateController {
 
     public String[] getArrayResult() {
         return results;
+    }
+    
+    public String getAnswersRectangle1() {
+        return answersRectangle1;
+    }
+    
+    public String getAnswersRectangle2() {
+        return answersRectangle2;
+    }
+    
+    public String getAnswersRectangle3() {
+        return answersRectangle3;
+    }
+    
+    public String getAnswersRectangle4() {
+        return answersRectangle4;
     }
 
     private void processImage(String path) throws MyException {
@@ -56,6 +78,11 @@ public class SaveExamTemplateController {
 
         processExamCode(image, rectangles.get(1));
         calculateExamScore(image, rectangles.subList(2, 6));
+        
+        answersRectangle1 = CreateImage(new Mat(image, rectangles.get(2)));        
+        answersRectangle2 = CreateImage(new Mat(image, rectangles.get(3)));
+        answersRectangle3 = CreateImage(new Mat(image, rectangles.get(4)));
+        answersRectangle4 = CreateImage(new Mat(image, rectangles.get(5)));
     }
 
     private void processExamCode(Mat image, Rect rectangleTestCode) throws MyException {
@@ -74,7 +101,9 @@ public class SaveExamTemplateController {
         List<Mat> allSmallRects = new ArrayList<>();
 
         for (Rect rect : answerRectangles) {
-            allSmallRects.addAll(getSmallRectangles(new Mat(image, rect)));
+            Object[] results = getSmallRectangles(new Mat(image, rect));
+            List<Mat> smallRectanglesMat = (List<Mat>) results[1];
+            allSmallRects.addAll(smallRectanglesMat);
         }
 
         if (allSmallRects.size() != 40) {

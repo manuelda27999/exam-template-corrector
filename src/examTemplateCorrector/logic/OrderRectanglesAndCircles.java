@@ -59,7 +59,7 @@ public class OrderRectanglesAndCircles {
         }
         return rectangles;
     }
-    
+
     public static List<Rect> orderRectanglesHorizontalRespectingVertical(List<Rect> rectangles) {
         for (int i = 0; i < (rectangles.size() - 1); i++) {
             if (rectangles.get(i).x > rectangles.get(i + 1).x) {
@@ -89,4 +89,33 @@ public class OrderRectanglesAndCircles {
         return rectangles;
     }
 
+    public static List<Rect> orderRectanglesForArea(List<Rect> rectangles) {
+        for (int i = 0; i < rectangles.size() - 1; i++) {
+            if ((rectangles.get(i).width * rectangles.get(i).height)
+                    > (rectangles.get(i + 1).width * rectangles.get(i + 1).height)) {
+                Rect saveElement = rectangles.get(i);
+                rectangles.set(i, rectangles.get(i + 1));
+                rectangles.set(i + 1, saveElement);
+
+                rectangles = orderRectanglesHorizontal(rectangles);
+            }
+        }
+
+        return rectangles;
+    }
+
+    public static List<Rect> deleteRectanglesInsideOfOtherRectangles(List<Rect> rectangles) {
+        for (int i = 0; i < rectangles.size() - 1; i++) {
+            if (rectangles.get(i).x <= rectangles.get(i + 1).x
+                    && rectangles.get(i).y <= rectangles.get(i + 1).y
+                    && (rectangles.get(i).x + rectangles.get(i).width >= rectangles.get(i + 1).x + rectangles.get(i + 1).width)
+                    && (rectangles.get(i).y + rectangles.get(i).height >= rectangles.get(i + 1).y + rectangles.get(i + 1).height)) {
+                
+                rectangles.remove(i + 1);
+                deleteRectanglesInsideOfOtherRectangles(rectangles);
+            }
+        }
+
+        return rectangles;
+    }
 }

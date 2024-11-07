@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/OrderRectanglesAndCircles.java</file>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/Main.java</file>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/CorrectExamController.java</file>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/WorkWithRectangles.java</file>
-            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/utilities/PrintImage.java</file>
+            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/WorkWithCircles.java</file>
+            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/SaveExamTemplateController.java</file>
         </group>
     </open-files>
 </project-private>

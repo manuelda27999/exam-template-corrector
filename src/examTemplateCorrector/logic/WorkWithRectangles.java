@@ -13,7 +13,6 @@ import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import static utilities.PrintImage.PrintImage;
 
 public class WorkWithRectangles {
 
@@ -107,11 +106,10 @@ public class WorkWithRectangles {
 
         for (Rect rect : rectangles) {
             //System.out.println("y:"+ rect.y + " x:" + rect.x);
-            Imgproc.rectangle(image, rect, new Scalar(0, 255, 0), 2);
+            //Imgproc.rectangle(image, rect, new Scalar(0, 255, 0), 2);
         }
-        
-        //PrintImage(image);
 
+        //PrintImage(image);
         return rectangles;
     }
 
@@ -168,7 +166,7 @@ public class WorkWithRectangles {
         Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
         Imgproc.erode(binaryImage, dilated, kernel);
         Imgproc.dilate(dilated, dilated, kernel);
-        
+
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(dilated, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
@@ -179,19 +177,15 @@ public class WorkWithRectangles {
             Rect rect = rotatedRect.boundingRect();
 
             Boolean exist = false;
-            if (rect.height > rect.width) {
-                for (Rect rectOfResult : rectangles) {
-                    if (rectOfResult.x == rect.x || rectOfResult.x == (rect.x + 1) || rectOfResult.x == (rect.x - 1)) {
-                        exist = true;
-                    }
-                }
-                if (exist) {
-                    exist = false;
-                } else {
-                    rectangles.add(rect);
-                }
+            if (rect.height > rect.width && 
+                    rect.height * rect.width > (rectangle.height() * rectangle.width() * 0.15)) {
+                
+                    rectangles.add(rect); 
             }
         }
+        
+        orderRectanglesForArea(rectangles);
+        deleteRectanglesInsideOfOtherRectangles(rectangles);
 
         rectangles = getBiggestRectangles(rectangles, 3);
 
@@ -202,11 +196,12 @@ public class WorkWithRectangles {
             Mat smallRectangle = new Mat(rectangle, rect);
             result.add(smallRectangle);
         }
-        
+
         return result;
     }
 
-    public static List<Mat> getSmallRectangles(Mat rectangle) {
+    public static Object[] getSmallRectangles(Mat rectangle) {
+        Object[] result = new Object[2];
         Set<Rect> resultRectanglesSet = new HashSet<>();
         List<Mat> resultsMats = new ArrayList<>();
 
@@ -255,7 +250,7 @@ public class WorkWithRectangles {
 
         //Pinto los rectángulos en la imagen proporcionada
         for (Rect rect : resultRectanglesList) {
-            Imgproc.rectangle(rectangle, rect, new Scalar(0, 0, 255), 2);
+            //Imgproc.rectangle(rectangle, rect, new Scalar(255, 0, 0), 3);
         }
 
         //Ordenamos los rectángulos en función del eje de la Y   
@@ -267,7 +262,10 @@ public class WorkWithRectangles {
             Mat smallImage = new Mat(rectangle, rect);
             resultsMats.add(smallImage);
         }
+        
+        result[0] = resultRectanglesList;   
+        result[1] = resultsMats;
 
-        return resultsMats;
+        return result;
     }
 }

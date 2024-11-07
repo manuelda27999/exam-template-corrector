@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import utilities.MyException;
+import utilities.AllUtilities;
 
 public class Main extends javax.swing.JFrame {
 
@@ -33,6 +34,11 @@ public class Main extends javax.swing.JFrame {
         jLabelExamCodeResult = new javax.swing.JLabel();
         jLabelMarkResult = new javax.swing.JLabel();
         jLabelExamTemplateSave = new javax.swing.JLabel();
+        jLabelImage = new javax.swing.JLabel();
+        jLabelContentAnswers1 = new javax.swing.JLabel();
+        jLabelContentAnswers2 = new javax.swing.JLabel();
+        jLabelContentAnswers3 = new javax.swing.JLabel();
+        jLabelContentAnswers4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,7 +49,7 @@ public class Main extends javax.swing.JFrame {
         jLabelHolaMundo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelHolaMundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelHolaMundo.setText("HELLO WORLD S.L.");
-        jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 510, 44));
+        jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 820, 44));
 
         jButtonSelectCorrectTemplate.setBackground(new java.awt.Color(102, 102, 102));
         jButtonSelectCorrectTemplate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -59,7 +65,7 @@ public class Main extends javax.swing.JFrame {
                 jButtonSelectCorrectTemplateActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 240, 70));
+        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 240, 70));
 
         jButtonSelectExamToCorrect.setBackground(new java.awt.Color(102, 102, 102));
         jButtonSelectExamToCorrect.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -75,38 +81,60 @@ public class Main extends javax.swing.JFrame {
                 jButtonSelectExamToCorrectActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSelectExamToCorrect, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 230, 70));
+        jPanelBackground.add(jButtonSelectExamToCorrect, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 230, 70));
 
         jLabelResults.setBackground(new java.awt.Color(255, 255, 255));
         jLabelResults.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelResults.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResults.setText("Results:");
-        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 510, 44));
+        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 270, 44));
 
         jLabelDNIorNIE.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelDNIorNIE.setText("DNI or NIE:");
-        jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 80, -1));
+        jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 250, 80, -1));
 
         jLabelExamCode.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelExamCode.setText("Exam code:");
-        jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 80, -1));
+        jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 290, 80, -1));
 
         jLabelMark.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelMark.setText("Mark:");
-        jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 80, -1));
+        jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 330, 80, -1));
 
         jLabelDNIorNIEResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 100, -1));
+        jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, 100, -1));
 
         jLabelExamCodeResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 70, -1));
+        jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 70, -1));
 
         jLabelMarkResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 50, -1));
+        jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, 50, -1));
 
         jLabelExamTemplateSave.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabelExamTemplateSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanelBackground.add(jLabelExamTemplateSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 430, 40));
+        jPanelBackground.add(jLabelExamTemplateSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 820, 40));
+
+        jLabelImage.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelImage.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelImage.setText("Answers:");
+        jPanelBackground.add(jLabelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 440, 40));
+
+        jLabelContentAnswers1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers1.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 110, 240));
+
+        jLabelContentAnswers2.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers2.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 110, 240));
+
+        jLabelContentAnswers3.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers3.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, 110, 240));
+
+        jLabelContentAnswers4.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers4.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 110, 240));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,7 +144,7 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
         );
 
         pack();
@@ -141,6 +169,11 @@ public class Main extends javax.swing.JFrame {
             try {
                 CorrectExamController correctExamController = new CorrectExamController(path);
 
+                AllUtilities.SetImageLabel(jLabelContentAnswers1, correctExamController.getAnswersRectangle1());
+                AllUtilities.SetImageLabel(jLabelContentAnswers2, correctExamController.getAnswersRectangle2());
+                AllUtilities.SetImageLabel(jLabelContentAnswers3, correctExamController.getAnswersRectangle3());
+                AllUtilities.SetImageLabel(jLabelContentAnswers4, correctExamController.getAnswersRectangle4());
+                
                 jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
                 jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
                 jLabelMarkResult.setText(correctExamController.getExamMarkResult());
@@ -168,10 +201,15 @@ public class Main extends javax.swing.JFrame {
             File selectedFile = fileChooser.getSelectedFile();
 
             path = selectedFile.getAbsolutePath();
-            
+ 
             try {
                 SaveExamTemplateController saveExamTemplateController = new SaveExamTemplateController(path);
 
+                AllUtilities.SetImageLabel(jLabelContentAnswers1, saveExamTemplateController.getAnswersRectangle1());
+                AllUtilities.SetImageLabel(jLabelContentAnswers2, saveExamTemplateController.getAnswersRectangle2());
+                AllUtilities.SetImageLabel(jLabelContentAnswers3, saveExamTemplateController.getAnswersRectangle3());
+                AllUtilities.SetImageLabel(jLabelContentAnswers4, saveExamTemplateController.getAnswersRectangle4());
+                
                 String examCode = saveExamTemplateController.getExamCodeResult();
                 String[] resultString = saveExamTemplateController.getArrayResult();
 
@@ -225,12 +263,17 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSelectCorrectTemplate;
     private javax.swing.JButton jButtonSelectExamToCorrect;
+    private javax.swing.JLabel jLabelContentAnswers1;
+    private javax.swing.JLabel jLabelContentAnswers2;
+    private javax.swing.JLabel jLabelContentAnswers3;
+    private javax.swing.JLabel jLabelContentAnswers4;
     private javax.swing.JLabel jLabelDNIorNIE;
     private javax.swing.JLabel jLabelDNIorNIEResult;
     private javax.swing.JLabel jLabelExamCode;
     private javax.swing.JLabel jLabelExamCodeResult;
     private javax.swing.JLabel jLabelExamTemplateSave;
     private javax.swing.JLabel jLabelHolaMundo;
+    private javax.swing.JLabel jLabelImage;
     private javax.swing.JLabel jLabelMark;
     private javax.swing.JLabel jLabelMarkResult;
     private javax.swing.JLabel jLabelResults;

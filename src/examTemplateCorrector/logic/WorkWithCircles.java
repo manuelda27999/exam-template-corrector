@@ -12,7 +12,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import static utilities.PrintImage.PrintImage;
+import static utilities.AllUtilities.PrintImage;
 
 public class WorkWithCircles {
 
@@ -52,7 +52,9 @@ public class WorkWithCircles {
             // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
-
+        
+        //PrintImage(rectangle); 
+        
         circlesList = orderCirclesVertical(circlesList);
         circlesList = orderCirclesHorizontalRespectingVertical(circlesList);
 
@@ -65,7 +67,7 @@ public class WorkWithCircles {
             Rect regionCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
             Mat circleSeparate = new Mat(grayRectangle, regionCircle);
                         
-            int darkPixels = countBlackPixels(circleSeparate, 70);
+            int darkPixels = countBlackPixels(circleSeparate, 85);
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
 
             if (darkPixels > totalPixels * 0.5) {
@@ -114,8 +116,6 @@ public class WorkWithCircles {
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
         
-        PrintImage(rectangle);
-
         circlesList = orderCirclesHorizontal(circlesList);
 
         List<List<double[]>> allColumns = new ArrayList<>();
@@ -155,7 +155,7 @@ public class WorkWithCircles {
                 Rect regionOfCircle = new Rect((int) (center.x - radius), (int) (center.y - radius), radius * 2, radius * 2);
                 Mat circleSeparate = new Mat(grayRectangle, regionOfCircle);
 
-                int darkPixels = countBlackPixels(circleSeparate, 70);
+                int darkPixels = countBlackPixels(circleSeparate, 85);
                 int totalPixels = circleSeparate.rows() * circleSeparate.cols();
 
                 if (darkPixels > totalPixels * 0.5) {
@@ -293,7 +293,7 @@ public class WorkWithCircles {
 
             circlesList.add(circle);
 
-            Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);  // Color verde y grosor 2
+            //Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);  // Color verde y grosor 2
         }
         
         //Ordenamos los círculos en función de su posición en el eje de la x
@@ -308,6 +308,7 @@ public class WorkWithCircles {
         //Crear un array para guardar el valor de los círculos
         boolean[] markedCircles = new boolean[4];
 
+        boolean findMarkedCircle = false;
         //Analizar los círculos detectados
         for (int i = 0; i < circles.cols(); i++) {
             double[] circle = circles.get(0, i);
@@ -323,7 +324,12 @@ public class WorkWithCircles {
             int totalPixels = circleSeparate.rows() * circleSeparate.cols();
             
             if (darkPixels > totalPixels * 0.4) {
+                if (findMarkedCircle) {
+                    return "Empty";
+                }
+                
                 markedCircles[i] = true;
+                findMarkedCircle= true;
             } else {
                 markedCircles[i] = false;
             }
