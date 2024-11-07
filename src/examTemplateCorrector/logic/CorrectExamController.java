@@ -23,6 +23,9 @@ public class CorrectExamController {
     private String dniOrNieResult;
     private String examCodeResult;
     private String examMarkResult;
+    private int correctAnswers;
+    private int wrongAnswers;
+    private int emptyAnswers;
     private String[] results;
     private String answersRectangle1;
     private String answersRectangle2;
@@ -46,6 +49,18 @@ public class CorrectExamController {
 
     public String getExamMarkResult() {
         return examMarkResult;
+    }
+
+    public int getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public int getWrongAnswers() {
+        return wrongAnswers;
+    }
+
+    public int getEmptyAnswers() {
+        return emptyAnswers;
     }
 
     public String[] getArrayResult() {
@@ -205,8 +220,17 @@ public class CorrectExamController {
         double score = 0;
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
             if (results[i] != "Empty") {
-                score += results[i].equals(correctResults[i]) ? CORRECT_SCORE : WRONG_SCORE;
+                if (results[i].equals(correctResults[i])) {
+                    score += CORRECT_SCORE;
+                    correctAnswers++;
+                } else {
+                    score += WRONG_SCORE;
+                    wrongAnswers++;
+                }
+            } else {
+                emptyAnswers++;
             }
+
         }
 
         //Aproxima a tres decimales
@@ -214,9 +238,9 @@ public class CorrectExamController {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
         String markResult = df.format(mark);
-        markResult = markResult.replace(",", "."); 
+        markResult = markResult.replace(",", ".");
         mark = Double.parseDouble(markResult);
-        
+
         return mark;
     }
 

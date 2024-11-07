@@ -39,6 +39,12 @@ public class Main extends javax.swing.JFrame {
         jLabelContentAnswers2 = new javax.swing.JLabel();
         jLabelContentAnswers3 = new javax.swing.JLabel();
         jLabelContentAnswers4 = new javax.swing.JLabel();
+        jLabelCorrectsAnswers = new javax.swing.JLabel();
+        jLabelWrongAnswers = new javax.swing.JLabel();
+        jLabelEmptyAnswers = new javax.swing.JLabel();
+        jLabelCorrectAnswersResult = new javax.swing.JLabel();
+        jLabelWrongAnswersResult = new javax.swing.JLabel();
+        jLabelEmptyAnswersResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,7 +71,7 @@ public class Main extends javax.swing.JFrame {
                 jButtonSelectCorrectTemplateActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 240, 70));
+        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 240, 70));
 
         jButtonSelectExamToCorrect.setBackground(new java.awt.Color(102, 102, 102));
         jButtonSelectExamToCorrect.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -87,28 +93,28 @@ public class Main extends javax.swing.JFrame {
         jLabelResults.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelResults.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResults.setText("Results:");
-        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 270, 44));
+        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 350, 44));
 
         jLabelDNIorNIE.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelDNIorNIE.setText("DNI or NIE:");
-        jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 250, 80, -1));
+        jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, 80, -1));
 
         jLabelExamCode.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelExamCode.setText("Exam code:");
-        jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 290, 80, -1));
+        jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 270, 80, -1));
 
         jLabelMark.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelMark.setText("Mark:");
-        jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 330, 80, -1));
+        jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, 80, -1));
 
         jLabelDNIorNIEResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, 100, -1));
+        jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 230, 100, -1));
 
         jLabelExamCodeResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 70, -1));
+        jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 270, 70, -1));
 
         jLabelMarkResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, 50, -1));
+        jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 310, 50, -1));
 
         jLabelExamTemplateSave.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabelExamTemplateSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -118,7 +124,7 @@ public class Main extends javax.swing.JFrame {
         jLabelImage.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelImage.setText("Answers:");
-        jPanelBackground.add(jLabelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 440, 40));
+        jPanelBackground.add(jLabelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 440, 40));
 
         jLabelContentAnswers1.setBackground(new java.awt.Color(204, 204, 204));
         jLabelContentAnswers1.setOpaque(true);
@@ -135,6 +141,27 @@ public class Main extends javax.swing.JFrame {
         jLabelContentAnswers4.setBackground(new java.awt.Color(204, 204, 204));
         jLabelContentAnswers4.setOpaque(true);
         jPanelBackground.add(jLabelContentAnswers4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 110, 240));
+
+        jLabelCorrectsAnswers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelCorrectsAnswers.setText("Corrects:");
+        jPanelBackground.add(jLabelCorrectsAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 350, 80, -1));
+
+        jLabelWrongAnswers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelWrongAnswers.setText("Wrongs:");
+        jPanelBackground.add(jLabelWrongAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 390, 80, -1));
+
+        jLabelEmptyAnswers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelEmptyAnswers.setText("Empty:");
+        jPanelBackground.add(jLabelEmptyAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 430, 80, -1));
+
+        jLabelCorrectAnswersResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanelBackground.add(jLabelCorrectAnswersResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 350, 100, -1));
+
+        jLabelWrongAnswersResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanelBackground.add(jLabelWrongAnswersResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 390, 70, -1));
+
+        jLabelEmptyAnswersResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanelBackground.add(jLabelEmptyAnswersResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 430, 50, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,6 +204,10 @@ public class Main extends javax.swing.JFrame {
                 jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
                 jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
                 jLabelMarkResult.setText(correctExamController.getExamMarkResult());
+                
+                jLabelCorrectAnswersResult.setText(String.valueOf(correctExamController.getCorrectAnswers()));                
+                jLabelWrongAnswersResult.setText(String.valueOf(correctExamController.getWrongAnswers()));
+                jLabelEmptyAnswersResult.setText(String.valueOf(correctExamController.getEmptyAnswers()));
 
                 jLabelExamTemplateSave.setText("");
                 
@@ -220,6 +251,9 @@ public class Main extends javax.swing.JFrame {
                 jLabelDNIorNIEResult.setText("");
                 jLabelExamCodeResult.setText("");
                 jLabelMarkResult.setText("");
+                jLabelCorrectAnswersResult.setText("");
+                jLabelWrongAnswersResult.setText("");
+                jLabelEmptyAnswersResult.setText("");
                 
             } catch (MyException e) {
                 ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
@@ -267,8 +301,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelContentAnswers2;
     private javax.swing.JLabel jLabelContentAnswers3;
     private javax.swing.JLabel jLabelContentAnswers4;
+    private javax.swing.JLabel jLabelCorrectAnswersResult;
+    private javax.swing.JLabel jLabelCorrectsAnswers;
     private javax.swing.JLabel jLabelDNIorNIE;
     private javax.swing.JLabel jLabelDNIorNIEResult;
+    private javax.swing.JLabel jLabelEmptyAnswers;
+    private javax.swing.JLabel jLabelEmptyAnswersResult;
     private javax.swing.JLabel jLabelExamCode;
     private javax.swing.JLabel jLabelExamCodeResult;
     private javax.swing.JLabel jLabelExamTemplateSave;
@@ -277,6 +315,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelMark;
     private javax.swing.JLabel jLabelMarkResult;
     private javax.swing.JLabel jLabelResults;
+    private javax.swing.JLabel jLabelWrongAnswers;
+    private javax.swing.JLabel jLabelWrongAnswersResult;
     private javax.swing.JPanel jPanelBackground;
     // End of variables declaration//GEN-END:variables
 }
