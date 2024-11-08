@@ -14,7 +14,10 @@ public class AllUtilities {
 
     public static void PrintImage(Mat rectangle) {
         Random random = new Random();
-        String filePath = String.valueOf(random.nextInt(1000)) + ".png";
+
+        String userHome = System.getProperty("user-home");
+
+        String filePath = userHome + "/Downloads/" + random.nextInt(1000) + ".png";
         Imgcodecs.imwrite(filePath, rectangle);
 
         try {
@@ -39,10 +42,13 @@ public class AllUtilities {
 
     public static String CreateImage(Mat rectangle) {
         Random random = new Random();
-        String filePath = String.valueOf(random.nextInt(1000)) + ".png";
+        String userHome = System.getProperty("user.home");
+
+        String filePath = userHome + File.separator + "Downloads" + File.separator + random.nextInt(1000) + ".png";
         Imgcodecs.imwrite(filePath, rectangle);
         File file = new File(filePath);
 
         return filePath;
     }
+    
 }
