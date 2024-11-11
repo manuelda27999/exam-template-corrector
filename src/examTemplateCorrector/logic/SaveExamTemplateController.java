@@ -16,17 +16,16 @@ public class SaveExamTemplateController {
     private String examCodeResult;
     private String examMarkResult;
     private String[] results;
-    private String answersRectangle1;    
+    private String answersRectangle1;
     private String answersRectangle2;
     private String answersRectangle3;
     private String answersRectangle4;
 
-
-    public SaveExamTemplateController(String path) throws MyException {
-        System.load("/opt/homebrew/Cellar/opencv/4.10.0_12/share/java/opencv4/libopencv_java4100.dylib");
+    public SaveExamTemplateController(String pathImage, String pathLibrary) throws MyException {
+        System.load(pathLibrary);
 
         results = new String[TOTAL_QUESTIONS];
-        processImage(path);
+        processImage(pathImage);
     }
 
     public String getExamCodeResult() {
@@ -40,33 +39,33 @@ public class SaveExamTemplateController {
     public String[] getArrayResult() {
         return results;
     }
-    
+
     public String getAnswersRectangle1() {
         return answersRectangle1;
     }
-    
+
     public String getAnswersRectangle2() {
         return answersRectangle2;
     }
-    
+
     public String getAnswersRectangle3() {
         return answersRectangle3;
     }
-    
+
     public String getAnswersRectangle4() {
         return answersRectangle4;
     }
 
-    private void processImage(String path) throws MyException {
+    private void processImage(String pathImage) throws MyException {
         //Imprimir imagen por pantalla
         /* HighGui.imshow("Imagen", image);
         HighGui.waitKey(0);
         HighGui.destroyAllWindows(); */
 
-        Mat image = Imgcodecs.imread(path);
-        
+        Mat image = Imgcodecs.imread(pathImage);
+
         Mat sheet = getSheet(image);
-        
+
         if (!sheet.empty()) {
             image = sheet;
         }
@@ -78,8 +77,8 @@ public class SaveExamTemplateController {
 
         processExamCode(image, rectangles.get(1));
         calculateExamScore(image, rectangles.subList(2, 6));
-        
-        answersRectangle1 = CreateImage(new Mat(image, rectangles.get(2)));        
+
+        answersRectangle1 = CreateImage(new Mat(image, rectangles.get(2)));
         answersRectangle2 = CreateImage(new Mat(image, rectangles.get(3)));
         answersRectangle3 = CreateImage(new Mat(image, rectangles.get(4)));
         answersRectangle4 = CreateImage(new Mat(image, rectangles.get(5)));
@@ -112,7 +111,9 @@ public class SaveExamTemplateController {
 
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
             String answer = getCorrectAnswer(allSmallRects.get(i));
-            if (answer == "Empty") throw new MyException("Some of the answers are empty, to save a template use a complete exam");
+            if (answer == "Empty") {
+                throw new MyException("Some of the answers are empty, to save a template use a complete exam");
+            }
             results[i] = answer;
         }
     }

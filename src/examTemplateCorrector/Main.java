@@ -4,6 +4,7 @@ import examTemplateCorrector.logic.CorrectExamController;
 import examTemplateCorrector.logic.SaveExamTemplateController;
 import static database.UtilityCSV.saveCorrectExamTemplate;
 import examTemplateCorrector.view.ErrorModal;
+import examTemplateCorrector.view.SavePathLibreryModal;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,10 +13,15 @@ import utilities.AllUtilities;
 
 public class Main extends javax.swing.JFrame {
 
-    String path = "";
+    String pathImage;
+    String pathLibrary;
 
     public Main() {
         initComponents();
+
+        SavePathLibreryModal modalPath = new SavePathLibreryModal(this, true);
+        modalPath.setVisible(true);
+        pathLibrary = modalPath.getPath();
     }
 
     @SuppressWarnings("unchecked")
@@ -191,30 +197,33 @@ public class Main extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
 
-            path = selectedFile.getAbsolutePath();
+            pathImage = selectedFile.getAbsolutePath();
 
             try {
-                CorrectExamController correctExamController = new CorrectExamController(path);
+                CorrectExamController correctExamController = new CorrectExamController(pathImage, pathLibrary);
 
                 AllUtilities.SetImageLabel(jLabelContentAnswers1, correctExamController.getAnswersRectangle1());
                 AllUtilities.SetImageLabel(jLabelContentAnswers2, correctExamController.getAnswersRectangle2());
                 AllUtilities.SetImageLabel(jLabelContentAnswers3, correctExamController.getAnswersRectangle3());
                 AllUtilities.SetImageLabel(jLabelContentAnswers4, correctExamController.getAnswersRectangle4());
-                
+
                 jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
                 jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
                 jLabelMarkResult.setText(correctExamController.getExamMarkResult());
-                
-                jLabelCorrectAnswersResult.setText(String.valueOf(correctExamController.getCorrectAnswers()));                
+
+                jLabelCorrectAnswersResult.setText(String.valueOf(correctExamController.getCorrectAnswers()));
                 jLabelWrongAnswersResult.setText(String.valueOf(correctExamController.getWrongAnswers()));
                 jLabelEmptyAnswersResult.setText(String.valueOf(correctExamController.getEmptyAnswers()));
 
                 jLabelExamTemplateSave.setText("");
-                
+
             } catch (MyException e) {
                 ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
                 jDialog.setVisible(true);
-            } 
+            } catch (Exception e) {
+                ErrorModal jDialog = new ErrorModal(this, true, "Ocurrió un error inesperado: " + e.getMessage());
+                jDialog.setVisible(true);
+            }
 
         } else {
             System.out.println("Selección de archivo cancelada");
@@ -231,34 +240,37 @@ public class Main extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
 
-            path = selectedFile.getAbsolutePath();
- 
+            pathImage = selectedFile.getAbsolutePath();
+
             try {
-                SaveExamTemplateController saveExamTemplateController = new SaveExamTemplateController(path);
+                SaveExamTemplateController saveExamTemplateController = new SaveExamTemplateController(pathImage, pathLibrary);
 
                 AllUtilities.SetImageLabel(jLabelContentAnswers1, saveExamTemplateController.getAnswersRectangle1());
                 AllUtilities.SetImageLabel(jLabelContentAnswers2, saveExamTemplateController.getAnswersRectangle2());
                 AllUtilities.SetImageLabel(jLabelContentAnswers3, saveExamTemplateController.getAnswersRectangle3());
                 AllUtilities.SetImageLabel(jLabelContentAnswers4, saveExamTemplateController.getAnswersRectangle4());
-                
+
                 String examCode = saveExamTemplateController.getExamCodeResult();
                 String[] resultString = saveExamTemplateController.getArrayResult();
 
                 saveCorrectExamTemplate(examCode, resultString);
 
                 jLabelExamTemplateSave.setText("Correct template save susccessfully");
-                
+
                 jLabelDNIorNIEResult.setText("");
                 jLabelExamCodeResult.setText("");
                 jLabelMarkResult.setText("");
                 jLabelCorrectAnswersResult.setText("");
                 jLabelWrongAnswersResult.setText("");
                 jLabelEmptyAnswersResult.setText("");
-                
+
             } catch (MyException e) {
                 ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
                 jDialog.setVisible(true);
-            } 
+            } catch (Exception e) {
+                ErrorModal jDialog = new ErrorModal(this, true, "Ocurrió un error inesperado: " + e.getMessage());
+                jDialog.setVisible(true);
+            }
         } else {
             System.out.println("Selección de archivo cancelada");
         }

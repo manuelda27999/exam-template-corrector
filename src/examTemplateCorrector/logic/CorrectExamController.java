@@ -32,11 +32,11 @@ public class CorrectExamController {
     private String answersRectangle3;
     private String answersRectangle4;
 
-    public CorrectExamController(String path) throws MyException {
-        System.load("/opt/homebrew/Cellar/opencv/4.10.0_12/share/java/opencv4/libopencv_java4100.dylib");
-
+    public CorrectExamController(String pathImage, String pathLibrary) throws MyException {
+        System.load(pathLibrary);
+        
         results = new String[TOTAL_QUESTIONS];
-        processImage(path);
+        processImage(pathImage);
     }
 
     public String getDniOrNieResult() {
@@ -83,13 +83,13 @@ public class CorrectExamController {
         return answersRectangle4;
     }
 
-    private void processImage(String path) throws MyException {
+    private void processImage(String pathImage) throws MyException {
         //Imprimir imagen por pantalla
         /* HighGui.imshow("Imagen", image);
         HighGui.waitKey(0);
         HighGui.destroyAllWindows(); */
 
-        mainImage = Imgcodecs.imread(path);
+        mainImage = Imgcodecs.imread(pathImage);
 
         Mat sheet = getSheet(mainImage);
 
