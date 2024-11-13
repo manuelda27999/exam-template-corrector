@@ -1,20 +1,22 @@
 package examTemplateCorrector;
 
-import examTemplateCorrector.logic.CorrectExamController;
-import examTemplateCorrector.logic.SaveExamTemplateController;
-import static database.UtilityCSV.saveCorrectExamTemplate;
-import examTemplateCorrector.view.ErrorModal;
-import examTemplateCorrector.view.SavePathLibreryModal;
+import api.MainCSV;
+import app.logic.CorrectExamController;
+import app.logic.SaveExamTemplateController;
+import app.view.ErrorModal;
+import app.view.SavePathLibreryModal;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import utilities.MyException;
-import utilities.AllUtilities;
+import app.utilities.MyException;
+import app.utilities.AllUtilities;
+import static app.utilities.AllUtilities.SearchCSV;
 
 public class Main extends javax.swing.JFrame {
 
     String pathImage;
     String pathLibrary;
+    String pathCSV = "";
 
     public Main() {
         initComponents();
@@ -22,6 +24,9 @@ public class Main extends javax.swing.JFrame {
         SavePathLibreryModal modalPath = new SavePathLibreryModal(this, true);
         modalPath.setVisible(true);
         pathLibrary = modalPath.getPath();
+        
+        pathCSV = SearchCSV(pathCSV);
+        System.out.println(pathCSV);
     }
 
     @SuppressWarnings("unchecked")
@@ -200,12 +205,12 @@ public class Main extends javax.swing.JFrame {
             pathImage = selectedFile.getAbsolutePath();
 
             try {
-                CorrectExamController correctExamController = new CorrectExamController(pathImage, pathLibrary);
+                CorrectExamController correctExamController = new CorrectExamController(pathImage, pathLibrary, pathCSV);
 
-                AllUtilities.SetImageLabel(jLabelContentAnswers1, correctExamController.getAnswersRectangle1());
-                AllUtilities.SetImageLabel(jLabelContentAnswers2, correctExamController.getAnswersRectangle2());
-                AllUtilities.SetImageLabel(jLabelContentAnswers3, correctExamController.getAnswersRectangle3());
-                AllUtilities.SetImageLabel(jLabelContentAnswers4, correctExamController.getAnswersRectangle4());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers1, correctExamController.getAnswersRectangle1());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers2, correctExamController.getAnswersRectangle2());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers3, correctExamController.getAnswersRectangle3());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers4, correctExamController.getAnswersRectangle4());
 
                 jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
                 jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
@@ -245,15 +250,16 @@ public class Main extends javax.swing.JFrame {
             try {
                 SaveExamTemplateController saveExamTemplateController = new SaveExamTemplateController(pathImage, pathLibrary);
 
-                AllUtilities.SetImageLabel(jLabelContentAnswers1, saveExamTemplateController.getAnswersRectangle1());
-                AllUtilities.SetImageLabel(jLabelContentAnswers2, saveExamTemplateController.getAnswersRectangle2());
-                AllUtilities.SetImageLabel(jLabelContentAnswers3, saveExamTemplateController.getAnswersRectangle3());
-                AllUtilities.SetImageLabel(jLabelContentAnswers4, saveExamTemplateController.getAnswersRectangle4());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers1, saveExamTemplateController.getAnswersRectangle1());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers2, saveExamTemplateController.getAnswersRectangle2());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers3, saveExamTemplateController.getAnswersRectangle3());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers4, saveExamTemplateController.getAnswersRectangle4());
 
                 String examCode = saveExamTemplateController.getExamCodeResult();
                 String[] resultString = saveExamTemplateController.getArrayResult();
 
-                saveCorrectExamTemplate(examCode, resultString);
+                MainCSV mainCSV = new MainCSV();
+                mainCSV.saveCorrectExamTemplate(examCode, resultString, pathCSV);
 
                 jLabelExamTemplateSave.setText("Correct template save susccessfully");
 

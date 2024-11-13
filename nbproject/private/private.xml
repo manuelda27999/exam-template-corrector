@@ -5,10 +5,11 @@
         <group>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/Main.java</file>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/CorrectExamController.java</file>
-            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/WorkWithRectangles.java</file>
-            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/WorkWithCircles.java</file>
+            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/view/SavePathLibreryModal.java</file>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/build.xml</file>
             <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/utilities/AllUtilities.java</file>
+            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/logic/SaveExamTemplateController.java</file>
+            <file>file:/Users/manueldavidcastilloperez/workspace/practicas-universae-202409/exam-template-corrector/src/examTemplateCorrector/view/ErrorModal.java</file>
         </group>
     </open-files>
 </project-private>
