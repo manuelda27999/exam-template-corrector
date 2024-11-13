@@ -1,17 +1,25 @@
 package app.logic;
 
 import api.MainCSV;
-import static app.logic.WorkWithCircles.*;
-import static app.logic.WorkWithRectangles.*;
+import static app.logic.WorkWithCircles.getCorrectAnswer;
+import static app.logic.WorkWithCircles.getLetter;
+import static app.logic.WorkWithCircles.getNumbersFromDNI;
+import static app.logic.WorkWithCircles.getNumbersFromExamCode;
+import static app.logic.WorkWithRectangles.getBigRectangleFromTestCode;
+import static app.logic.WorkWithRectangles.getMainRectangles;
+import static app.logic.WorkWithRectangles.getSheet;
+import static app.logic.WorkWithRectangles.getSmallRectangles;
+import static app.logic.WorkWithRectangles.getSmallRectanglesFromDNI;
+import app.utilities.MyException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import org.opencv.core.*;
+import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import static app.utilities.AllUtilities.CreateImage;
-import app.utilities.MyException;
 
 public class CorrectExamController {
 
