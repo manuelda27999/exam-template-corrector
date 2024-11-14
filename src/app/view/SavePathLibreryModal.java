@@ -42,7 +42,7 @@ public class SavePathLibreryModal extends javax.swing.JDialog {
 
         jLabelTittle.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabelTittle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTittle.setText("Please select the libopencv_java4100 library");
+        jLabelTittle.setText("Please select the libopencv_java490 library");
 
         jLabelText.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabelText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

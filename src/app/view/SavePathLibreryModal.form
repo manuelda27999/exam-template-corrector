@@ -53,7 +53,7 @@
           <Font name="Helvetica Neue" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Please select the libopencv_java4100 library"/>
+        <Property name="text" type="java.lang.String" value="Please select the libopencv_java490 library"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelText">
