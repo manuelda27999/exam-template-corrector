@@ -36,30 +36,32 @@ Este proyecto está diseñado para trabajar con la biblioteca OpenCV y Java, per
 
 <div align="center">
   <p><strong>Plantilla de Examen</strong></p>
-  <img src="src/Images/plantilla.jpg" width="500" alt="Imagen de ejemplo" />
+  <img src="src/Images/plantilla.jpg" width="500" alt="Imagen de plantilla de examen" />
 </div>
 
 <div align="center">
   <p><strong>Buscar archivo .dll o .dylib</strong></p>
-  <img src="src/Images/imagen1.png" width="500" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen1.png" width="500" alt="Imagen de búsqueda de archivo .dll o .dylib" />
 </div>
 
 <div align="center">
   <p><strong>Buscar plantilla para guardar o corregir</strong></p>
-  <img src="src/Images/imagen2.png" width="500" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen2.png" width="500" alt="Imagen de búsqueda de plantilla" />
 </div>
 
 <div align="center">
-  <p><strong>Plantilla correcta guardad</strong></p>
-  <img src="src/Images/imagen3.png" width="500" alt="Imagen de ejemplo" />
+  <p><strong>Plantilla correcta guardada</strong></p>
+  <img src="src/Images/imagen3.png" width="500" alt="Imagen de plantilla correcta guardada" />
 </div>
 
 <div align="center">
   <p><strong>Exámen correcto corregido</strong></p>
-  <img src="src/Images/imagen4.png" width="500" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen4.png" width="500" alt="Imagen de examen corregido correctamente" />
 </div>
 
 <div align="center">
   <p><strong>Exámen incorrecto corregido</strong></p>
-  <img src="src/Images/imagen5.png" width="500" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen5.png" width="500" alt="Imagen de examen corregido incorrectamente" />
 </div>
+
+---
