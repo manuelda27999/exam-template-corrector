@@ -1,16 +1,32 @@
 package examTemplateCorrector;
 
-import static database.UtilityCSV.saveCorrectExamTemplate;
+import api.MainCSV;
+import app.logic.CorrectExamController;
+import app.logic.SaveExamTemplateController;
+import app.view.ErrorModal;
+import app.view.SavePathLibreryModal;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import app.utilities.MyException;
+import app.utilities.AllUtilities;
+import static app.utilities.AllUtilities.SearchCSV;
 
 public class Main extends javax.swing.JFrame {
 
-    String path = "";
-    
+    String pathImage;
+    String pathLibrary;
+    String pathCSV = "";
+
     public Main() {
         initComponents();
+
+        SavePathLibreryModal modalPath = new SavePathLibreryModal(this, true);
+        modalPath.setVisible(true);
+        pathLibrary = modalPath.getPath();
+        
+        pathCSV = SearchCSV(pathCSV);
+        System.out.println(pathCSV);
     }
 
     @SuppressWarnings("unchecked")
@@ -28,6 +44,18 @@ public class Main extends javax.swing.JFrame {
         jLabelDNIorNIEResult = new javax.swing.JLabel();
         jLabelExamCodeResult = new javax.swing.JLabel();
         jLabelMarkResult = new javax.swing.JLabel();
+        jLabelExamTemplateSave = new javax.swing.JLabel();
+        jLabelImage = new javax.swing.JLabel();
+        jLabelContentAnswers1 = new javax.swing.JLabel();
+        jLabelContentAnswers2 = new javax.swing.JLabel();
+        jLabelContentAnswers3 = new javax.swing.JLabel();
+        jLabelContentAnswers4 = new javax.swing.JLabel();
+        jLabelCorrectsAnswers = new javax.swing.JLabel();
+        jLabelWrongAnswers = new javax.swing.JLabel();
+        jLabelEmptyAnswers = new javax.swing.JLabel();
+        jLabelCorrectAnswersResult = new javax.swing.JLabel();
+        jLabelWrongAnswersResult = new javax.swing.JLabel();
+        jLabelEmptyAnswersResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,7 +66,7 @@ public class Main extends javax.swing.JFrame {
         jLabelHolaMundo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelHolaMundo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelHolaMundo.setText("HELLO WORLD S.L.");
-        jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 510, 44));
+        jPanelBackground.add(jLabelHolaMundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 820, 44));
 
         jButtonSelectCorrectTemplate.setBackground(new java.awt.Color(102, 102, 102));
         jButtonSelectCorrectTemplate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -54,7 +82,7 @@ public class Main extends javax.swing.JFrame {
                 jButtonSelectCorrectTemplateActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 240, 70));
+        jPanelBackground.add(jButtonSelectCorrectTemplate, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 240, 70));
 
         jButtonSelectExamToCorrect.setBackground(new java.awt.Color(102, 102, 102));
         jButtonSelectExamToCorrect.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -70,34 +98,81 @@ public class Main extends javax.swing.JFrame {
                 jButtonSelectExamToCorrectActionPerformed(evt);
             }
         });
-        jPanelBackground.add(jButtonSelectExamToCorrect, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 230, 70));
+        jPanelBackground.add(jButtonSelectExamToCorrect, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 230, 70));
 
         jLabelResults.setBackground(new java.awt.Color(255, 255, 255));
         jLabelResults.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelResults.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResults.setText("Results:");
-        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 510, 44));
+        jPanelBackground.add(jLabelResults, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 350, 44));
 
         jLabelDNIorNIE.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelDNIorNIE.setText("DNI or NIE:");
-        jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 80, -1));
+        jPanelBackground.add(jLabelDNIorNIE, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, 80, -1));
 
         jLabelExamCode.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelExamCode.setText("Exam code:");
-        jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 80, -1));
+        jPanelBackground.add(jLabelExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 270, 80, -1));
 
         jLabelMark.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelMark.setText("Mark:");
-        jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 80, -1));
+        jPanelBackground.add(jLabelMark, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, 80, -1));
 
         jLabelDNIorNIEResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 100, -1));
+        jPanelBackground.add(jLabelDNIorNIEResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 230, 100, -1));
 
         jLabelExamCodeResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 70, -1));
+        jPanelBackground.add(jLabelExamCodeResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 270, 70, -1));
 
         jLabelMarkResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 50, -1));
+        jPanelBackground.add(jLabelMarkResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 310, 50, -1));
+
+        jLabelExamTemplateSave.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        jLabelExamTemplateSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelBackground.add(jLabelExamTemplateSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 820, 40));
+
+        jLabelImage.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelImage.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelImage.setText("Answers:");
+        jPanelBackground.add(jLabelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 440, 40));
+
+        jLabelContentAnswers1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers1.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 110, 240));
+
+        jLabelContentAnswers2.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers2.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 110, 240));
+
+        jLabelContentAnswers3.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers3.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, 110, 240));
+
+        jLabelContentAnswers4.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelContentAnswers4.setOpaque(true);
+        jPanelBackground.add(jLabelContentAnswers4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 110, 240));
+
+        jLabelCorrectsAnswers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelCorrectsAnswers.setText("Corrects:");
+        jPanelBackground.add(jLabelCorrectsAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 350, 80, -1));
+
+        jLabelWrongAnswers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelWrongAnswers.setText("Wrongs:");
+        jPanelBackground.add(jLabelWrongAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 390, 80, -1));
+
+        jLabelEmptyAnswers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelEmptyAnswers.setText("Empty:");
+        jPanelBackground.add(jLabelEmptyAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 430, 80, -1));
+
+        jLabelCorrectAnswersResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanelBackground.add(jLabelCorrectAnswersResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 350, 100, -1));
+
+        jLabelWrongAnswersResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanelBackground.add(jLabelWrongAnswersResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 390, 70, -1));
+
+        jLabelEmptyAnswersResult.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanelBackground.add(jLabelEmptyAnswersResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 430, 50, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,7 +182,7 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
         );
 
         pack();
@@ -118,24 +193,43 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSelectExamToCorrectActionPerformed
 
     private void jButtonSelectExamToCorrectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectExamToCorrectMouseClicked
-        
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
-        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
-        
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg", "png"));
+        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads/exámenes"));
+
         int result = fileChooser.showOpenDialog(null);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            
-            path = selectedFile.getAbsolutePath();
-                        
-            CorrectExamController correctExamController = new CorrectExamController(path);
 
-            jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
-            jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
-            jLabelMarkResult.setText(correctExamController.getExamMarkResult());
-            
+            pathImage = selectedFile.getAbsolutePath();
+
+            try {
+                CorrectExamController correctExamController = new CorrectExamController(pathImage, pathLibrary, pathCSV);
+
+                AllUtilities.SetMatInLabel(jLabelContentAnswers1, correctExamController.getAnswersRectangle1());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers2, correctExamController.getAnswersRectangle2());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers3, correctExamController.getAnswersRectangle3());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers4, correctExamController.getAnswersRectangle4());
+
+                jLabelDNIorNIEResult.setText(correctExamController.getDniOrNieResult());
+                jLabelExamCodeResult.setText(correctExamController.getExamCodeResult());
+                jLabelMarkResult.setText(correctExamController.getExamMarkResult());
+
+                jLabelCorrectAnswersResult.setText(String.valueOf(correctExamController.getCorrectAnswers()));
+                jLabelWrongAnswersResult.setText(String.valueOf(correctExamController.getWrongAnswers()));
+                jLabelEmptyAnswersResult.setText(String.valueOf(correctExamController.getEmptyAnswers()));
+
+                jLabelExamTemplateSave.setText("");
+
+            } catch (MyException e) {
+                ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
+                jDialog.setVisible(true);
+            } catch (Exception e) {
+                ErrorModal jDialog = new ErrorModal(this, true, "Ocurrió un error inesperado: " + e.getMessage());
+                jDialog.setVisible(true);
+            }
+
         } else {
             System.out.println("Selección de archivo cancelada");
         }
@@ -143,23 +237,46 @@ public class Main extends javax.swing.JFrame {
 
     private void jButtonSelectCorrectTemplateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSelectCorrectTemplateMouseClicked
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg"));
-        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads"));
-        
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagenes", "jpg", "png"));
+        fileChooser.setCurrentDirectory(new File("/Users/manueldavidcastilloperez/Downloads/exámenes"));
+
         int result = fileChooser.showOpenDialog(null);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            
-            path = selectedFile.getAbsolutePath();
-                        
-            SaveExamTemplateController correctExamController = new SaveExamTemplateController(path);
-            
-            String examCode = correctExamController.getExamCodeResult();
-            String[] resultString = correctExamController.getArrayResult();
 
-            saveCorrectExamTemplate(examCode, resultString);
-            
+            pathImage = selectedFile.getAbsolutePath();
+
+            try {
+                SaveExamTemplateController saveExamTemplateController = new SaveExamTemplateController(pathImage, pathLibrary);
+
+                AllUtilities.SetMatInLabel(jLabelContentAnswers1, saveExamTemplateController.getAnswersRectangle1());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers2, saveExamTemplateController.getAnswersRectangle2());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers3, saveExamTemplateController.getAnswersRectangle3());
+                AllUtilities.SetMatInLabel(jLabelContentAnswers4, saveExamTemplateController.getAnswersRectangle4());
+
+                String examCode = saveExamTemplateController.getExamCodeResult();
+                String[] resultString = saveExamTemplateController.getArrayResult();
+
+                MainCSV mainCSV = new MainCSV();
+                mainCSV.saveCorrectExamTemplate(examCode, resultString, pathCSV);
+
+                jLabelExamTemplateSave.setText("Correct template save susccessfully");
+
+                jLabelDNIorNIEResult.setText("");
+                jLabelExamCodeResult.setText("");
+                jLabelMarkResult.setText("");
+                jLabelCorrectAnswersResult.setText("");
+                jLabelWrongAnswersResult.setText("");
+                jLabelEmptyAnswersResult.setText("");
+
+            } catch (MyException e) {
+                ErrorModal jDialog = new ErrorModal(this, true, e.getMessage());
+                jDialog.setVisible(true);
+            } catch (Exception e) {
+                ErrorModal jDialog = new ErrorModal(this, true, "Ocurrió un error inesperado: " + e.getMessage());
+                jDialog.setVisible(true);
+            }
         } else {
             System.out.println("Selección de archivo cancelada");
         }
@@ -198,14 +315,26 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSelectCorrectTemplate;
     private javax.swing.JButton jButtonSelectExamToCorrect;
+    private javax.swing.JLabel jLabelContentAnswers1;
+    private javax.swing.JLabel jLabelContentAnswers2;
+    private javax.swing.JLabel jLabelContentAnswers3;
+    private javax.swing.JLabel jLabelContentAnswers4;
+    private javax.swing.JLabel jLabelCorrectAnswersResult;
+    private javax.swing.JLabel jLabelCorrectsAnswers;
     private javax.swing.JLabel jLabelDNIorNIE;
     private javax.swing.JLabel jLabelDNIorNIEResult;
+    private javax.swing.JLabel jLabelEmptyAnswers;
+    private javax.swing.JLabel jLabelEmptyAnswersResult;
     private javax.swing.JLabel jLabelExamCode;
     private javax.swing.JLabel jLabelExamCodeResult;
+    private javax.swing.JLabel jLabelExamTemplateSave;
     private javax.swing.JLabel jLabelHolaMundo;
+    private javax.swing.JLabel jLabelImage;
     private javax.swing.JLabel jLabelMark;
     private javax.swing.JLabel jLabelMarkResult;
     private javax.swing.JLabel jLabelResults;
+    private javax.swing.JLabel jLabelWrongAnswers;
+    private javax.swing.JLabel jLabelWrongAnswersResult;
     private javax.swing.JPanel jPanelBackground;
     // End of variables declaration//GEN-END:variables
 }
