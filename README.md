@@ -1,22 +1,31 @@
-# Exam template corrector
-Exam template corrector es una aplicación de escritorio desarrollada con el objetivo de corregir plantillas de exámenes, en esta podremos guardar los resultados correctos de un exámens y compararlos con el mismo 
-modelo de éxamen para obtener el DNI o NIE de este, el código del examen, la calificación y el número de respuestas correctas, erróneas y vacías. 
+# **Exam Template Corrector**
 
-## Configuración de JDK y JAVA
-Este proyecto está diseñado para trabajar con la biblioteca OpenCV y Java, pero presenta configuraciones diferentes dependiendo de la versión de JDK y OpenCV que vayas a utilizar. A continuación, se detallan las diferencias:
+**Descripción:**
 
-## Estructura de Ramas
+"Exam Template Corrector" es una aplicación de escritorio desarrollada para corregir plantillas de exámenes. Con esta herramienta, podrás guardar los resultados correctos de un examen y compararlos con un modelo de examen para obtener el **DNI o NIE** del estudiante, el **código del examen**, la **calificación** y el número de respuestas **correctas**, **erróneas** y **vacías**.
 
-### Rama `main`
-- **JDK**: Version 23
-- **OpenCV**: Version 4.10
+---
 
-### Rama `develop`
-- **JDK**: Version 21
-- **OpenCV**: Version 4.10
+## **Configuración de JDK y OpenCV**
 
-### Notas:
-  - Necesitarás del archivo .dylib(macOS) o .dll(windows) en tu ordenador para poder ejecutar el proyecto.
-  - Ejemplo: opencv_java410.dll o libopencv_java4100.dylib
+Este proyecto está diseñado para trabajar con la biblioteca OpenCV y Java, pero tiene configuraciones diferentes dependiendo de la versión de **JDK** y **OpenCV** que vayas a utilizar. A continuación, se detallan las diferencias según las ramas:
 
+---
 
+## **Estructura de Ramas**
+
+### **Rama `main`**
+- **JDK**: Versión 23
+- **OpenCV**: Versión 4.10
+
+### **Rama `develop`**
+- **JDK**: Versión 21
+- **OpenCV**: Versión 4.10
+
+---
+
+### **Notas importantes:**
+  - Necesitarás el archivo **.dylib** (macOS) o **.dll** (Windows) en tu ordenador para poder ejecutar el proyecto correctamente.
+  - Ejemplo de archivos necesarios:
+    - **macOS**: `libopencv_java4100.dylib`
+    - **Windows**: `opencv_java410.dll`
