@@ -30,34 +30,36 @@ Este proyecto está diseñado para trabajar con la biblioteca OpenCV y Java, per
     - **macOS**: `libopencv_java4100.dylib`
     - **Windows**: `opencv_java410.dll`
 
+---
+
 ### **Imágenes:**
 
 <div align="center">
   <p><strong>Plantilla de Examen</strong></p>
-  <img src="src/Images/plantilla.jpg" width="200" alt="Imagen de ejemplo" />
+  <img src="src/Images/plantilla.jpg" width="500" alt="Imagen de ejemplo" />
 </div>
 
 <div align="center">
   <p><strong>Buscar archivo .dll o .dylib</strong></p>
-  <img src="src/Images/imagen1.png" width="200" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen1.png" width="500" alt="Imagen de ejemplo" />
 </div>
 
 <div align="center">
   <p><strong>Buscar plantilla para guardar o corregir</strong></p>
-  <img src="src/Images/imagen2.png" width="200" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen2.png" width="500" alt="Imagen de ejemplo" />
 </div>
 
 <div align="center">
   <p><strong>Plantilla correcta guardad</strong></p>
-  <img src="src/Images/imagen3.png" width="200" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen3.png" width="500" alt="Imagen de ejemplo" />
 </div>
 
 <div align="center">
   <p><strong>Exámen correcto corregido</strong></p>
-  <img src="src/Images/imagen4.png" width="200" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen4.png" width="500" alt="Imagen de ejemplo" />
 </div>
 
 <div align="center">
   <p><strong>Exámen incorrecto corregido</strong></p>
-  <img src="src/Images/imagen5.png" width="200" alt="Imagen de ejemplo" />
+  <img src="src/Images/imagen5.png" width="500" alt="Imagen de ejemplo" />
 </div>
