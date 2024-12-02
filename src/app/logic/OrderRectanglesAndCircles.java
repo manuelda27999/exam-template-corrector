@@ -4,7 +4,8 @@ import java.util.List;
 import org.opencv.core.Rect;
 
 public class OrderRectanglesAndCircles {
-
+    //En esta clase está toda la lógica que ordena círculos y rectángulos de manera vertical y horizontal
+    
     public static List<double[]> orderCirclesVertical(List<double[]> circles) {
         for (int i = 0; i < (circles.size() - 1); i++) {
             if (circles.get(i)[1] > circles.get(i + 1)[1]) {

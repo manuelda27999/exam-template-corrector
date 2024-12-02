@@ -1,11 +1,7 @@
 package app.logic;
 
-import static app.logic.WorkWithCircles.getCorrectAnswer;
-import static app.logic.WorkWithCircles.getNumbersFromExamCode;
-import static app.logic.WorkWithRectangles.getBigRectangleFromTestCode;
-import static app.logic.WorkWithRectangles.getMainRectangles;
-import static app.logic.WorkWithRectangles.getSheet;
-import static app.logic.WorkWithRectangles.getSmallRectangles;
+import static app.logic.WorkWithCircles.*;
+import static app.logic.WorkWithRectangles.*;
 import app.utilities.MyException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +10,8 @@ import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
 
-
 public class SaveExamTemplateController {
+    //En esta clase se guarda la plantilla correcta
 
     private static final int TOTAL_QUESTIONS = 40;
 
@@ -117,7 +113,7 @@ public class SaveExamTemplateController {
 
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
             String answer = getCorrectAnswer(allSmallRects.get(i));
-            if (answer == "Empty") {
+            if ("Empty".equals(answer)) {
                 throw new MyException("Some of the answers are empty, to save a template use a complete exam");
             }
             results[i] = answer;

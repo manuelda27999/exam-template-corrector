@@ -1,7 +1,6 @@
 package app.utilities;
 
 import api.MainCSV;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -18,6 +17,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 
 public class AllUtilities {
 
+    //Pinta la imagen por pantalla, útil para ir controlando cual es el aspecto de las matrices durante la ejecución
     public static void PrintImage(Mat rectangle) {
         Random random = new Random();
 
@@ -39,6 +39,7 @@ public class AllUtilities {
         }
     }
 
+    //Establece una imagen en un label
     public static void SetImageLabel(JLabel label, Image image) {
         ImageIcon imageIcon = new ImageIcon(image);
         Icon icon = new ImageIcon(imageIcon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
@@ -46,6 +47,7 @@ public class AllUtilities {
         label.repaint();
     }
 
+    //Establece una imagen en un label con un mat
     public static void SetMatInLabel(JLabel jlabel, Mat mat) {
         try {
             MatOfByte buffer = new MatOfByte();
@@ -60,17 +62,7 @@ public class AllUtilities {
         }
     }
 
-    public static String CreateImage(Mat rectangle) {
-        Random random = new Random();
-        String userHome = System.getProperty("user.home");
-
-        String filePath = userHome + File.separator + "Downloads" + File.separator + random.nextInt(1000) + ".png";
-        Imgcodecs.imwrite(filePath, rectangle);
-        File file = new File(filePath);
-
-        return filePath;
-    }
-
+    //Busca el CSV para trabajar con el, sino lo encuentra lo crea
     public static String SearchCSV(String path) {
         String workPath = path;
 

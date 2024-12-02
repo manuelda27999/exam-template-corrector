@@ -12,10 +12,11 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import static app.utilities.AllUtilities.PrintImage;
 
 public class WorkWithCircles {
+    //En esta clase está toda la lógica que trabaja con círculos, es decir identificación del DNI, del códig y corrección de los rectángulos con 4 opciones
 
+    //Obtiene la letra del DNI o del NIE
     public static String getLetter(Mat rectangle) {
         String result = "Empty";
 
@@ -46,10 +47,7 @@ public class WorkWithCircles {
 
             circlesList.add(circle);
 
-            // Dibuja el centro del círculo en azul
             Imgproc.circle(rectangle, center, 3, new Scalar(255, 0, 0), -1);
-
-            // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
         
@@ -79,6 +77,7 @@ public class WorkWithCircles {
         return result;
     }
 
+    //Obtiene los números del DNI o del NIE
     public static String getNumbersFromDNI(Mat rectangle) {
         String result = "";
 
@@ -109,10 +108,7 @@ public class WorkWithCircles {
 
             circlesList.add(circle);
 
-            // Dibuja el centro del círculo en azul
             Imgproc.circle(rectangle, center, 3, new Scalar(255, 0, 0), -1);
-
-            // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
         
@@ -168,6 +164,7 @@ public class WorkWithCircles {
         return result;
     }
 
+    //Obtiene el código de exámen
     public static String getNumbersFromExamCode(Mat rectangle) {
         String result = "";
 
@@ -198,10 +195,7 @@ public class WorkWithCircles {
 
             circlesList.add(circle);
 
-            // Dibuja el centro del círculo en azul
             Imgproc.circle(rectangle, center, 3, new Scalar(255, 0, 0), -1);
-
-            // Dibuja el contorno del círculo en verde
             Imgproc.circle(rectangle, center, radius, new Scalar(0, 255, 0), 2);
         }
 
@@ -257,6 +251,7 @@ public class WorkWithCircles {
         return result;
     }
 
+    //Obtiene la respuesta correcta en los rectángulos pequeños
     public static String getCorrectAnswer(Mat rectangle) {
         String result = "Empty";
 
@@ -273,7 +268,7 @@ public class WorkWithCircles {
             boundingRect = Imgproc.boundingRect(contours.get(0));
         }
 
-        //Establecer dimensiones del radio mínimo y máximo y de ls distancia mínima a partir de las dimensiones del rectángulo
+        //Establecer dimensiones del radio mínimo y máximo y de la distancia mínima a partir de las dimensiones del rectángulo
         int minRadius = rectangle.width() / 12;
         int maxRadius = rectangle.width() / 9;
         int minDist = rectangle.width() / 6;
@@ -352,6 +347,7 @@ public class WorkWithCircles {
         return result;
     }
 
+    //Cuenta los píxeles oscuros dentro del círculos
     public static int countBlackPixels(Mat area, int darkThreshold) {
         int blackPixelCount = 0;
         for (int y = 0; y < area.rows(); y++) {

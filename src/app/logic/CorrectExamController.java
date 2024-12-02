@@ -1,15 +1,8 @@
 package app.logic;
 
 import api.MainCSV;
-import static app.logic.WorkWithCircles.getCorrectAnswer;
-import static app.logic.WorkWithCircles.getLetter;
-import static app.logic.WorkWithCircles.getNumbersFromDNI;
-import static app.logic.WorkWithCircles.getNumbersFromExamCode;
-import static app.logic.WorkWithRectangles.getBigRectangleFromTestCode;
-import static app.logic.WorkWithRectangles.getMainRectangles;
-import static app.logic.WorkWithRectangles.getSheet;
-import static app.logic.WorkWithRectangles.getSmallRectangles;
-import static app.logic.WorkWithRectangles.getSmallRectanglesFromDNI;
+import static app.logic.WorkWithCircles.*;
+import static app.logic.WorkWithRectangles.*;
 import app.utilities.MyException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -22,6 +15,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 public class CorrectExamController {
+    //Con este código vamos a crear una clase con la que corregir las plantillas y a través de la cual podemos acceder a los resultados
 
     private static final int TOTAL_QUESTIONS = 40;
     private static final double CORRECT_SCORE = 1.0;
@@ -234,7 +228,7 @@ public class CorrectExamController {
     private double getMark(String[] results, String[] correctResults) throws MyException {
         double score = 0;
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
-            if (results[i] != "Empty") {
+            if (!"Empty".equals(results[i])) {
                 if (results[i].equals(correctResults[i])) {
                     score += CORRECT_SCORE;
                     correctAnswers++;
@@ -245,10 +239,8 @@ public class CorrectExamController {
             } else {
                 emptyAnswers++;
             }
-
         }
 
-        //Aproxima a tres decimales
         double mark = (score / TOTAL_QUESTIONS) * 10;
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);

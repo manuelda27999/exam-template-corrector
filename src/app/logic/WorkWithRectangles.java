@@ -15,20 +15,20 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 public class WorkWithRectangles {
+    //En esta clase está toda la lógica que trabaja con rectángulos, es decir, reconocer los rectángulos principales de la plantilla, 
+    // obtener los subrectángulos de DNI, los mini rectángulos de las respuestas, etc
 
+    //Obtener los rectángulos más grandes dentro de una lista
     public static List<Rect> getBiggestRectangles(List<Rect> allRectangles, int amount) {
         List<Rect> result = new ArrayList<>();
 
-        //Obtengo el area de todos los rectángulos
         for (Rect newRectangle : allRectangles) {
             int areaNewRectangle = newRectangle.height * newRectangle.width;
 
-            //Si la lista de resultados tiene 6 elementos, busco el más pequeño y lo comparo con el candidato
             if (result.size() == amount) {
                 int indexOfSmallestRectangle = 0;
                 int smallestAreaResultRectangle = Integer.MAX_VALUE;
 
-                //Busco el rectángulo más pequeño
                 for (Rect resultRectangle : result) {
                     if (smallestAreaResultRectangle > resultRectangle.height * resultRectangle.width) {
                         smallestAreaResultRectangle = resultRectangle.height * resultRectangle.width;
@@ -36,7 +36,6 @@ public class WorkWithRectangles {
                     }
                 }
 
-                //Comparo el rectángulo más pequeño con el candidato
                 if (smallestAreaResultRectangle < areaNewRectangle) {
                     result.remove(indexOfSmallestRectangle);
                     result.add(newRectangle);
@@ -49,6 +48,7 @@ public class WorkWithRectangles {
         return result;
     }
 
+    //Busca la hoja del exámen(útil cuando la imagen se toma desde lejos)
     public static Mat getSheet(Mat image) {
         Mat grayImage = new Mat();
         Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
@@ -80,6 +80,7 @@ public class WorkWithRectangles {
         }
     }
 
+    //Obtiene los rectángulos princcipales de la aplicación
     public static List<Rect> getMainRectangles(Mat image) {
         Mat grayImage = new Mat();
         Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
@@ -151,6 +152,7 @@ public class WorkWithRectangles {
         return result;
     }
 
+    //Obtiene los 3 rectángulos dentro del rectángulo de el DNI y NIE
     public static List<Mat> getSmallRectanglesFromDNI(Mat rectangle) {
         List<Mat> result = new ArrayList<>();
 
@@ -200,6 +202,7 @@ public class WorkWithRectangles {
         return result;
     }
 
+    //Obtiene los rectángulos pequeños en el rectángulos inferiores
     public static Object[] getSmallRectangles(Mat rectangle) {
         Object[] result = new Object[2];
         Set<Rect> resultRectanglesSet = new HashSet<>();
@@ -228,7 +231,6 @@ public class WorkWithRectangles {
             RotatedRect rotatedRect = Imgproc.minAreaRect(contour2f);
             Rect rect = rotatedRect.boundingRect();
 
-            //Filtramos los valores que cumplen con las condiciones adecuadas y añadimos solo una vez los valores una vez, obviando los repetidos
             Boolean exist = false;
             if (rect.height < rect.width && rect.width > (rectangle.width() * 0.6) && rect.height < (rectangle.height() * 0.15)) {
                 for (Rect rectOfResult : resultRectanglesSet) {
@@ -244,19 +246,15 @@ public class WorkWithRectangles {
             }
         }
 
-        //Seleccionamos solo los 10 más grandes
         List<Rect> resultRectanglesList = new ArrayList<>(resultRectanglesSet);
         resultRectanglesList = getBiggestRectangles(resultRectanglesList, 10);
 
-        //Pinto los rectángulos en la imagen proporcionada
         for (Rect rect : resultRectanglesList) {
             //Imgproc.rectangle(rectangle, rect, new Scalar(255, 0, 0), 3);
         }
 
-        //Ordenamos los rectángulos en función del eje de la Y   
         resultRectanglesList = orderRectanglesVertical(resultRectanglesList);
 
-        //Creamos a partir de cada rectángulo un Mat que vamos a meter en resultsMat
         for (Rect rect : resultRectanglesList) {
 
             Mat smallImage = new Mat(rectangle, rect);
