@@ -15,8 +15,7 @@ Este proyecto está diseñado para trabajar con la biblioteca OpenCV y Java, per
 - **JDK**: Version 21
 - **OpenCV**: Version 4.10
 
-
-- **Notas**:
+### Notas:
   - Necesitarás del archivo .dylib(macOS) o .dll(windows) en tu ordenador para poder ejecutar el proyecto.
   - Ejemplo: opencv_java410.dll o libopencv_java4100.dylib
 
